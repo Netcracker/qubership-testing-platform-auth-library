@@ -33,12 +33,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy Maven Snapshot
-        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@main
+        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@fix/maven-snapshot-deploy-action
         with:
-          java-version: '21'
-          target-store: 'github'
-          additional-mvn-args: '-Pgithub'
-          maven-username: ${{ github.actor }}
-          maven-token: ${{ github.token }}
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          java-version: '21' # Specify the Java version to use for the build
+          target-store: 'github' # or 'central' for Maven Central repository
+          additional-mvn-args: '-Dgpg.skip=true' # If profiles have been configured in pom.xml file
+          maven-username: ${{ github.actor }} # For maven central repository it would be ${{ secrets.MAVEN_USER }}
+          maven-token: ${{ github.token }} # For maven central repository it would be ${{ secrets.MAVEN_PASSWORD}}
