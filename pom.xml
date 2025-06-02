@@ -12,6 +12,7 @@
     <artifactId>atp-auth-spring-boot-starter</artifactId>
     <version>1.2.60-SNAPSHOT</version>
 
+
     <properties>
         <atp.common.version>0.0.42</atp.common.version>
         <java.version>21</java.version>

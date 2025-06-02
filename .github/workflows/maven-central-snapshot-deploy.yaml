@@ -35,8 +35,8 @@ jobs:
       - name: Deploy Maven Snapshot
         uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@fix/maven-snapshot-deploy-action
         with:
-          java-version: '21' # Specify the Java version to use for the build
-          target-store: 'github' # or 'central' for Maven Central repository
-          additional-mvn-args: '-Dgpg.skip=true -Pgithub' # If profiles have been configured in pom.xml file
-          maven-username: ${{ github.actor }} # For maven central repository it would be ${{ secrets.MAVEN_USER }}
-          maven-token: ${{ github.token }} # For maven central repository it would be ${{ secrets.MAVEN_PASSWORD}}
+          java-version: '21'
+          target-store: 'central'
+          additional-mvn-args: ''
+          maven-username: ${{ secrets.MAVEN_USER }}
+          maven-token: ${{ secrets.MAVEN_PASSWORD }}
