@@ -37,6 +37,6 @@ jobs:
         with:
           java-version: '21'
           target-store: 'central'
-          additional-mvn-args: ''
+          additional-mvn-args: '-Dmaven.javadoc.skip=true'
           maven-username: ${{ secrets.MAVEN_USER }}
           maven-token: ${{ secrets.MAVEN_PASSWORD }}
