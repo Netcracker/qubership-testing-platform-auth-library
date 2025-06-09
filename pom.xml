@@ -29,7 +29,7 @@
     </properties>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>ATP Auth Spring Boot Starter</description>
+    <description>Qubership Testing Platform Auth Library</description>
     <url>https://github.com/Netcracker/qubership-testing-platform-auth-library</url>
     <licenses>
         <license>
