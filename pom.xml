@@ -22,9 +22,6 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <google.guava.version>32.0.0-jre</google.guava.version>
         <lombok.version>1.18.30</lombok.version>
-        <maven.pmd.plugin.version>3.8</maven.pmd.plugin.version>
-        <spotbugs.maven.plugin.version>4.7.3.0</spotbugs.maven.plugin.version>
-        <pmd.version>7.0.0</pmd.version>
         <ch.qos.logback.version>1.2.12</ch.qos.logback.version>
     </properties>
 
