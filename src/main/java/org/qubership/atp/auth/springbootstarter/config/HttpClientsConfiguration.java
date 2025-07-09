@@ -87,7 +87,7 @@ public class HttpClientsConfiguration {
     /**
      * SSL context into which self-signed certificates are uploaded.
      *
-     * @param trustManagerFactoryProvider Provider<TrustManagerFactory> bean
+     * @param trustManagerFactoryProvider Provider of TrustManagerFactory bean
      * @return SSLContext object created and configured.
      */
     @Bean

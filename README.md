@@ -1,3 +1,9 @@
+# Qubership Testing Platform Auth Library
+
+## Purpose
+
+This library is used to check user permissions, to perform users authorization and authentication for requests, received/sent by QSTP services.
+
 # Usage Notes
 
 ## Authentication
