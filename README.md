@@ -1,8 +1,14 @@
-# Usage Notes
+# Qubership Testing Platform Auth Library
 
-## Authentication
+## Purpose
 
-### 1. Add dependency into pom.xml
+This library is used to check user permissions, to perform users authorization and authentication for requests, received/sent by QSTP services.
+
+## Usage Notes
+
+### Authentication
+
+#### 1. Add dependency into pom.xml
 ```xml
 <dependencies>
     ...
@@ -15,7 +21,7 @@
 </dependencies>
 ```
 
-### 2. Add Authentication properties into application.properties
+#### 2. Add Authentication properties into application.properties
 ```text
 ##==================atp-auth-spring-boot-starter=====================
 spring.cache.cache-names: projects, auth_objects
@@ -43,9 +49,9 @@ spring.kafka.producer.bootstrap-servers=${KAFKA_SERVERS:kafka:9092}
 
 Please find additional information about how to integrate microservice with internal gateway in User Guide
 
-## Authorization
-### 1. Turn ON authentication according instructions above
-### 2. Use @PreAuthorize() annotation
+### Authorization
+#### 1. Turn ON authentication according instructions above
+#### 2. Use @PreAuthorize() annotation
 The annotation should be placed before each backend method, if permissions should be checked before its execution.
 ```java
 @GetMapping(value = "/project/{projectUuid}")
@@ -102,26 +108,26 @@ EXECUTE
 Authorization is considered successful automatically, independently on `@PreAuthorize()` checks, if the user has
 `ATP_ADMIN` role. This role is configured and assigned to users in Keycloak admin console.
 
-## M2MRestTemplate
-### 1. Add Keycloak properties into application.properties
+### M2MRestTemplate
+#### 1. Add Keycloak properties into application.properties
 ```text
 keycloak.resource=${KEYCLOAK_RESOURCE}
 keycloak.credentials.secret=${KEYCLOAK_SECRET}
 ```
 
-### 2. Turn ON configuration using the annotation
+#### 2. Turn ON configuration using the annotation
 ```java
 @EnableM2MRestTemplate
 ```
 
-### 3. Add link to the bean
+#### 3. Add link to the bean
 The link should be added to any class where you want to make requests to external resources.
 ```java
 @Autowired
 RestTemplate m2mRestTemplate;
 ```
 
-### 4. Client roles configuration
+#### 4. Client roles configuration
 Example below shows, how one can allow a catalogue client to get information about users:
 1. Open client settings
 ![Client Settings Edit page](doc/images/client_settings.png)
@@ -131,7 +137,7 @@ Example below shows, how one can allow a catalogue client to get information abo
 ![Select roles](doc/images/select_role.png)
 4. Click 'Add selected' button
 
-### Remarks
+#### Remarks
 If, due to some reason, you want to use m2mRestTemplate without client token getting,
 you should explicitly configure it via 'atp-auth.enable-m2m' property:
 ```text
@@ -140,16 +146,16 @@ atp-auth.enable-m2m=false
 
 Default value is true.
 
-## RelayRestTemplate and RelayWebClient
+### RelayRestTemplate and RelayWebClient
 
 They are used to add token of current authenticated user to all requests. RelayRestTemplate is turned on by default.
 
-### 1. RelayWebClient configuration can be turned ON by means of annotation
+#### 1. RelayWebClient configuration can be turned ON by means of annotation
 ```java
 @EnableTokenRelayWebClient
 ```
 
-### 2. Add link to the bean
+#### 2. Add link to the bean
 The link should be added to any class where you want to make requests to external resources.
 ```java
 @Autowired
@@ -161,20 +167,20 @@ RestTemplate relayRestTemplate;
 WebClient relayWebClient;
 ```
 
-## OAuth2 Feign Client Interceptor
+### OAuth2 Feign Client Interceptor
 The interceptor uses token of the current authenticated user in requests to services.
 If the current security context doesn't contain user token, service token is used (the same way as in m2m rest template).
 
-### 1. Feign Client Interceptor configuration can be turned ON by means of annotation
+#### 1. Feign Client Interceptor configuration can be turned ON by means of annotation
 ```java
 @EnableOauth2FeignClientInterceptor
 ```
 
-## Turning security ON and OFF by means of profiles
-### Turn ON
+### Turning security ON and OFF by means of profiles
+#### Turn ON
 This is default mode. It works in case 'default' profile is active.
 
-### Turn OFF
+#### Turn OFF
 This mode can be selected if:
 
 1.'disable-security' profile is set active:
@@ -188,7 +194,7 @@ spring.profiles.active=disable-security
 keycloak.enabled=false
 ```
 
-## Ssl certificate verification
+### Ssl certificate verification
 By default, SSL certificate verification is turned off.
 To turn if on, one needs to use 'atp-auth.ssl.certificate.verify' property, and also to set path-to-certificates-folder:
 ```text
@@ -208,8 +214,8 @@ feign.okhttp.enabled=true
 atp.feign.micrometer.enable=false
 ```
 
-## RestTemplate Logging
-### 1. Add RestTemplate Logging properties into application.properties
+### RestTemplate Logging
+#### 1. Add RestTemplate Logging properties into application.properties
 ```text
 atp.logging.resttemplate.headers=${ATP_HTTP_LOGGING_HEADERS:true}
 atp.logging.resttemplate.headers.ignore=${ATP_HTTP_LOGGING_HEADERS_IGNORE:}
@@ -224,7 +230,7 @@ By default, 'atp.logging.resttemplate.headers' value is false.
 * _atp.logging.feignclient.headers.ignore_ - To ignore specified headers for FeignClient. Tokens should be separated with spaces.
 * Properties _atp.logging.resttemplate.headers.ignore_ and _atp.logging.feignclient.headers.ignore_ support regular expressions.
 
-### 2. Add configuration into logback.xml
+#### 2. Add configuration into logback.xml
 ```xml
 <if condition='${ATP_HTTP_LOGGING}'>
     <then>
@@ -244,7 +250,7 @@ To turn logging ON at local machine, one should add options into JVM parameters:
 -Dlogging.level.org.qubership.atp.catalogue.service.client.feign.DatasetFeignClient=debug
 ```
 
-## UI Integration
+### UI Integration
 
 1. Turn ON 'implicit flow' option in Keycloak client settings
 (Keycloak can return access token just after redirection).
@@ -289,7 +295,7 @@ class AtpProjectComponent {
 }
 ```
 
-## Logging business IDs
+### Logging business IDs
 Default list of business IDs:
 ```text
 userId,projectId,executionRequestId,testRunId,bvTestRunId,bvTestCaseId,environmentId,
@@ -297,7 +303,7 @@ systemId,subscriberId,tsgSessionId,svpSessionId,dataSetId,dataSetListId,attribut
 itfLiteRequestId,reportType,itfSessionId,itfContextId,callChainId
 ```
 
-Property to set business ids:
+Property to set business IDs:
 ```text
 atp.logging.business.keys=userId,projectId
 ```

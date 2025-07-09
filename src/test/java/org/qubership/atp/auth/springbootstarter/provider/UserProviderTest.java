@@ -40,7 +40,7 @@ public class UserProviderTest {
         // given
         String techUserId = UUID.randomUUID().toString();
         String techUserName = "techUserName";
-        String techUserEmail = "test@test.test";
+        String techUserEmail = "example@example.com";
         String expectedToken = UUID.randomUUID().toString();
         mockSecurityContextHolder(expectedToken);
 
