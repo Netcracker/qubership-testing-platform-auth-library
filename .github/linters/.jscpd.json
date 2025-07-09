@@ -2,7 +2,12 @@
   "threshold": 2,
   "ignore": [
     "**/resources/**",
+    "**/.github/**",
     "**/*/*.xml",
+    "**/*/*.yaml",
+    "**/*/*.yml",
+    "**/*/*.json",
+    "**/*/*.hbs",
     "**/*/*.md"
   ]
 }
