@@ -34,7 +34,7 @@ public class DisableSecurityUserProvider implements Provider<UserInfo> {
         userInfo.setUsername("Username");
         userInfo.setFirstName("Firstname");
         userInfo.setLastName("Lastname");
-        userInfo.setEmail("Email@some-company.com");
+        userInfo.setEmail("example@example.com");
         userInfo.setRoles(Collections.singletonList("ADMIN"));
 
         return userInfo;
