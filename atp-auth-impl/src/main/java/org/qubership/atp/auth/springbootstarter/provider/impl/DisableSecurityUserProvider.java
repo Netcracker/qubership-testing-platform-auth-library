@@ -16,27 +16,13 @@
 
 package org.qubership.atp.auth.springbootstarter.provider.impl;
 
-import java.util.Collections;
-import java.util.UUID;
-
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
 
 public class DisableSecurityUserProvider implements Provider<UserInfo> {
 
-    private static final UUID USER_ID = UUID.fromString("1c0167c9-1bea-4587-8f32-d637ff341d31");
-
     @Override
     public UserInfo get() {
-        UserInfo userInfo = new UserInfo();
-
-        userInfo.setId(USER_ID);
-        userInfo.setUsername("Username");
-        userInfo.setFirstName("Firstname");
-        userInfo.setLastName("Lastname");
-        userInfo.setEmail("example@example.com");
-        userInfo.setRoles(Collections.singletonList("ADMIN"));
-
-        return userInfo;
+        return new UserInfo();
     }
 }

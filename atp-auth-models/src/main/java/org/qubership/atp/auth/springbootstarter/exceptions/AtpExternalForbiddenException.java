@@ -14,20 +14,17 @@
  * # limitations under the License.
  */
 
-package org.qubership.atp.auth.springbootstarter.holders;
+package org.qubership.atp.auth.springbootstarter.exceptions;
 
-import java.util.Optional;
-import java.util.Set;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-public class UserRolesContextHolder implements DataContextHolder<Set<String>> {
+@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "ATP-0005")
+public class AtpExternalForbiddenException extends AtpException {
 
-    @Override
-    public Optional<Set<String>> get() {
-        return Optional.of(getPrincipal()
-                .getKeycloakSecurityContext()
-                .getToken()
-                .getRealmAccess()
-                .getRoles()
-        );
+    public static final String DEFAULT_MESSAGE = "External access to this endpoint is forbidden";
+
+    public AtpExternalForbiddenException() {
+        super(DEFAULT_MESSAGE);
     }
 }

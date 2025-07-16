@@ -22,7 +22,10 @@ public enum Role {
      * Admin role.
      */
     ATP_ADMIN,
-
+    /**
+     * External role.
+     */
+    ATP_EXTERNAL,
     /**
      * Support role.
      */

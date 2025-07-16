@@ -16,7 +16,6 @@
 
 package org.qubership.atp.auth.springbootstarter.security.permissions;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -30,25 +29,20 @@ import org.qubership.atp.auth.springbootstarter.entities.Project;
  * Check access entry point.
  */
 public interface PolicyEnforcement {
+
     /**
      * This method is used if the params is String.class instead of UUID.class and Action.class
      *
      * @return permission
      */
-    default boolean checkAccess(String projectId, String action) {
-        return checkAccess(StringUtils.isBlank(projectId) ? null : UUID.fromString(projectId),
-                Operation.valueOf(action.toUpperCase()));
-    }
+    boolean checkAccess(String projectId, String action);
 
     /**
      * This method is used if the params is UUID.class and String.class instead of Action.class
      *
      * @return permission
      */
-    default boolean checkAccess(UUID projectId, String action) {
-        return checkAccess(projectId, Operation.valueOf(action.toUpperCase()));
-    }
-
+    boolean checkAccess(UUID projectId, String action);
 
     /**
      * Performs evaluation of authorization policies using given set of projects and operation for
@@ -99,9 +93,7 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    default boolean checkAccess(String entityName, UUID projectId, String action) {
-        return checkAccess(entityName, projectId, Operation.valueOf(action.toUpperCase()));
-    }
+    boolean checkAccess(String entityName, UUID projectId, String action);
 
     /**
      * Performs evaluation of authorization policies using given entity name, current project and operation for
@@ -109,9 +101,7 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    default boolean checkAccess(String entityName, String projectId, String action) {
-        return checkAccess(entityName, UUID.fromString(projectId), Operation.valueOf(action.toUpperCase()));
-    }
+    boolean checkAccess(String entityName, String projectId, String action);
 
     /**
      * Performs evaluation of authorization policies using given current project, objectId and operation for
@@ -127,9 +117,7 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    default boolean checkAccess(String entityName, UUID projectId, UUID objectId, String operation) {
-        return checkAccess(entityName, projectId, objectId, Operation.valueOf(operation));
-    }
+    boolean checkAccess(String entityName, UUID projectId, UUID objectId, String operation);
 
     /**
      * Performs evaluation of authorization policies using given current project, set of objectIds and operation for
@@ -145,14 +133,27 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    default boolean checkAccess(String entityName, UUID projectId, Set<UUID> objectIds, String operation) {
-        return checkAccess(entityName, projectId, objectIds, Operation.valueOf(operation));
+    boolean checkAccess(String entityName, UUID projectId, Set<UUID> objectIds, String operation);
+
+    /**
+     * Performs evaluation of authorization policies using given current project, set of objectIds and operation for
+     * currently authenticated user.
+     *
+     * @return permission
+     */
+    boolean checkExternalAccess(String entityName, UUID projectId, Operation action);
+
+    default boolean checkExternalAccess(String projectId, String action) {
+        return checkAccess(StringUtils.isBlank(projectId) ? null : UUID.fromString(projectId),
+                Operation.valueOf(action.toUpperCase()));
     }
 
     /**
      * Performs evaluation of authorization policies using user role.
      */
     boolean isAdmin();
+
+    boolean isExternal();
 
     /**
      * Performs evaluation of authorization policies using user role.
@@ -173,19 +174,9 @@ public interface PolicyEnforcement {
      * @param atpRunners list of atp runners ID
      * @return {@link Project}
      */
-    default Project getProjectEntityWithGroup(UUID projectId, List<UUID> leads, List<UUID> qaTaEngineers,
-                                              List<UUID> devOpsEngineers, List<UUID> atpRunners,
-                                              List<UUID> atpSupports, Permissions permissions) {
-        Project project = new Project();
-        project.setUuid(projectId);
-        project.setLeads(new HashSet<>(leads));
-        project.setQaTaEngineers(new HashSet<>(qaTaEngineers));
-        project.setDevOpsEngineers(new HashSet<>(devOpsEngineers));
-        project.setAtpRunners(new HashSet<>(atpRunners));
-        project.setAtpSupports(new HashSet<>(atpSupports));
-        project.setPermissions(permissions);
-        return project;
-    }
+    Project getProjectEntityWithGroup(UUID projectId, List<UUID> leads, List<UUID> qaTaEngineers,
+                                      List<UUID> devOpsEngineers, List<UUID> atpRunners,
+                                      List<UUID> atpSupports, Permissions permissions);
 
     /**
      * Check policy for project.

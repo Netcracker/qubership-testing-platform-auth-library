@@ -17,29 +17,13 @@
 package org.qubership.atp.auth.springbootstarter;
 
 import org.qubership.atp.auth.springbootstarter.config.DisableSecurityConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.FeignCapabilityConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.HttpClientsConfiguration;
 import org.qubership.atp.auth.springbootstarter.config.KafkaConfig;
-import org.qubership.atp.auth.springbootstarter.config.KeycloakConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.SecurityConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.ServiceConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.SslProviderConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.UndertowWebMvcConfiguration;
-import org.qubership.atp.auth.springbootstarter.config.UtilsConfiguration;
-import org.qubership.atp.auth.springbootstarter.handlers.GlobalExceptionHandler;
-import org.qubership.atp.auth.springbootstarter.security.oauth2.client.config.TokenRelayConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableCaching
-@Import({
-        KeycloakConfiguration.class,
-        SecurityConfiguration.class, UtilsConfiguration.class,
-        ServiceConfiguration.class, DisableSecurityConfiguration.class,
-        TokenRelayConfiguration.class, HttpClientsConfiguration.class,
-        FeignCapabilityConfiguration.class, SslProviderConfiguration.class,
-        UndertowWebMvcConfiguration.class, GlobalExceptionHandler.class, KafkaConfig.class})
+@Import({DisableSecurityConfiguration.class, KafkaConfig.class})
 public class AtpAuthAutoConfiguration {
 }

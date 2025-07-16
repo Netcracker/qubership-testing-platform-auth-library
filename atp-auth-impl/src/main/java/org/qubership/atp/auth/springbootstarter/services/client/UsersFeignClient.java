@@ -53,14 +53,14 @@ public interface UsersFeignClient {
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/{objectId}/permissions")
     Map<String, Map<UUID, Operations>> getObjectPermissionsByObjectId(@PathVariable UUID projectId,
-                                                                    @PathVariable String serviceName,
-                                                                    @PathVariable String objectId);
+                                                                      @PathVariable String serviceName,
+                                                                      @PathVariable String objectId);
 
     @RequestMapping(method = RequestMethod.GET,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/permissions")
     Map<String, Map<UUID, Operations>> getObjectPermissionsByServiceName(@PathVariable UUID projectId,
-                                                                       @PathVariable String serviceName);
+                                                                         @PathVariable String serviceName);
 
     @RequestMapping(method = RequestMethod.POST,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/users/info")
