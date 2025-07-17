@@ -14,20 +14,17 @@
  * # limitations under the License.
  */
 
-package org.qubership.atp.auth.springbootstarter.entities;
+package org.qubership.atp.auth.springbootstarter.exceptions;
 
-public enum Role {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-    /**
-     * Admin role.
-     */
-    ATP_ADMIN,
-    /**
-     * External role.
-     */
-    ATP_EXTERNAL,
-    /**
-     * Support role.
-     */
-    ATP_SUPPORT
+@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "ATP-0005")
+public class AtpExternalForbiddenException extends AtpException {
+
+    public static final String DEFAULT_MESSAGE = "External access to this endpoint is forbidden";
+
+    public AtpExternalForbiddenException() {
+        super(DEFAULT_MESSAGE);
+    }
 }

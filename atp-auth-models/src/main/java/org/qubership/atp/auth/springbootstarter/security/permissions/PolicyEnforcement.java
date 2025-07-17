@@ -49,7 +49,6 @@ public interface PolicyEnforcement {
         return checkAccess(projectId, Operation.valueOf(action.toUpperCase()));
     }
 
-
     /**
      * Performs evaluation of authorization policies using given set of projects and operation for
      * currently authenticated user, execute checkAccess (UUID projectId, String action) for each project in the set.
@@ -150,9 +149,24 @@ public interface PolicyEnforcement {
     }
 
     /**
+     * Performs evaluation of authorization policies using given current project, set of objectIds and operation for
+     * currently authenticated user.
+     *
+     * @return permission
+     */
+    boolean checkExternalAccess(String entityName, UUID projectId, Operation action);
+
+    default boolean checkExternalAccess(String projectId, String action) {
+        return checkAccess(StringUtils.isBlank(projectId) ? null : UUID.fromString(projectId),
+                        Operation.valueOf(action.toUpperCase()));
+    }
+
+    /**
      * Performs evaluation of authorization policies using user role.
      */
     boolean isAdmin();
+
+    boolean isExternal();
 
     /**
      * Performs evaluation of authorization policies using user role.

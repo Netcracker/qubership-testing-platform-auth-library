@@ -27,6 +27,7 @@ import org.qubership.atp.auth.springbootstarter.entities.Operation;
 import org.qubership.atp.auth.springbootstarter.entities.Operations;
 import org.qubership.atp.auth.springbootstarter.entities.Project;
 import org.qubership.atp.auth.springbootstarter.entities.Role;
+import org.qubership.atp.auth.springbootstarter.exceptions.AtpExternalForbiddenException;
 import org.qubership.atp.auth.springbootstarter.holders.DataContextHolder;
 import org.qubership.atp.auth.springbootstarter.services.UserGroupService;
 import org.qubership.atp.auth.springbootstarter.services.UsersService;
@@ -67,22 +68,19 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
     @Override
     public boolean checkAccess(Set<UUID> projectIdSet, String action) {
         boolean isAccess = false;
-
         if (isAdmin()) {
             return true;
         }
-
+        throwForbiddenIfExternal();
         if (projectIdSet == null) {
             return false;
         }
-
         for (UUID projectId : projectIdSet) {
             isAccess = checkAccess(projectId, action);
             if (!isAccess) {
                 break;
             }
         }
-
         return isAccess;
     }
 
@@ -91,10 +89,10 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         if (isAdmin()) {
             return true;
         }
+        throwForbiddenIfExternal();
         if (projectId == null) {
             return false;
         }
-
         Group group = userGroupService.getUserGroupByProjectId(projectId);
         return checkPolicies(operation, group, projectId, "");
     }
@@ -104,6 +102,7 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         if (isAdmin()) {
             return true;
         }
+        throwForbiddenIfExternal();
         if (projectId == null) {
             return false;
         }
@@ -114,44 +113,38 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
     @Override
     public boolean checkAccess(String entityName, Set<UUID> projectIdSet, Operation action) {
         boolean isAccess = false;
-
         if (isAdmin()) {
             return true;
         }
-
+        throwForbiddenIfExternal();
         if (projectIdSet == null) {
             return false;
         }
-
         for (UUID projectId : projectIdSet) {
             isAccess = checkAccess(entityName, projectId, action);
             if (!isAccess) {
                 break;
             }
         }
-
         return isAccess;
     }
 
     @Override
     public boolean checkAccess(String entityName, Set<UUID> projectIdSet, String action) {
         boolean isAccess = false;
-
         if (isAdmin()) {
             return true;
         }
-
+        throwForbiddenIfExternal();
         if (projectIdSet == null) {
             return false;
         }
-
         for (UUID projectId : projectIdSet) {
             isAccess = checkAccess(entityName, projectId, action);
             if (!isAccess) {
                 break;
             }
         }
-
         return isAccess;
     }
 
@@ -160,17 +153,15 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         if (isAdmin()) {
             return true;
         }
-
+        throwForbiddenIfExternal();
         if (!checkAccess(entityName, projectId, operation)) {
             log.debug("User has no rights to the project - access denied");
             return false;
         }
-
         if (Objects.isNull(objectId)) {
             log.debug("ObjectId is null. Checking access to the object is not required - access is granted");
             return true;
         }
-
         Optional<UUID> userIdOpt = userGroupService.getUserId();
         if (!userIdOpt.isPresent()) {
             log.debug("User is not defined - access denied");
@@ -200,12 +191,11 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         if (isAdmin()) {
             return true;
         }
-
+        throwForbiddenIfExternal();
         if (!checkAccess(entityName, projectId, operation)) {
             log.debug("User has no rights to the project - access denied");
             return false;
         }
-
         if (CollectionUtils.isEmpty(objectIds)) {
             log.debug("ObjectIds are empty or null. Checking access to the object is not required - access is granted");
             return true;
@@ -237,6 +227,18 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         });
     }
 
+    @Override
+    public boolean checkExternalAccess(String entityName, UUID projectId, Operation operation) {
+        if (isAdmin()) {
+            return true;
+        }
+        if (projectId == null) {
+            return false;
+        }
+        Group group = userGroupService.getUserGroupByProjectId(projectId);
+        return checkPolicies(operation, group, projectId, entityName);
+    }
+
     /**
      * Performs evaluation of authorization policies using user role.
      */
@@ -244,11 +246,23 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         return hasRole(Role.ATP_ADMIN);
     }
 
+    @Override
+    public boolean isExternal() {
+        return hasRole(Role.ATP_EXTERNAL);
+    }
+
     /**
      * Performs evaluation of authorization policies using user role.
      */
     public boolean isSupport() {
         return hasRole(Role.ATP_SUPPORT);
+    }
+
+    private void throwForbiddenIfExternal() {
+        if (isExternal()) {
+            log.error("External access to this endpoint is forbidden");
+            throw new AtpExternalForbiddenException();
+        }
     }
 
     private boolean hasRole(Role role) {
@@ -282,7 +296,6 @@ public class EntityAccessEnforcement implements PolicyEnforcement {
         if (isAdmin()) {
             return true;
         }
-
         Group group = userGroupService.getUserGroupByProject(project);
         return checkPolicies(operation, group, project, entityName);
     }

@@ -97,7 +97,17 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
             }
 
             @Override
+            public boolean checkExternalAccess(String entityName, UUID projectId, Operation action) {
+               return true;
+            }
+
+            @Override
             public boolean isAdmin() {
+                return true;
+            }
+
+            @Override
+            public boolean isExternal() {
                 return true;
             }
 
