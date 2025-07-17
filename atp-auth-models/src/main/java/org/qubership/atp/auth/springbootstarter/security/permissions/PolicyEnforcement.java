@@ -158,7 +158,7 @@ public interface PolicyEnforcement {
 
     default boolean checkExternalAccess(String projectId, String action) {
         return checkAccess(StringUtils.isBlank(projectId) ? null : UUID.fromString(projectId),
-                        Operation.valueOf(action.toUpperCase()));
+                Operation.valueOf(action.toUpperCase()));
     }
 
     /**
