@@ -16,6 +16,7 @@
 
 package org.qubership.atp.auth.springbootstarter.security.permissions;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -35,14 +36,20 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    boolean checkAccess(String projectId, String action);
+    default boolean checkAccess(String projectId, String action) {
+        return checkAccess(StringUtils.isBlank(projectId) ? null : UUID.fromString(projectId),
+                Operation.valueOf(action.toUpperCase()));
+    }
 
     /**
      * This method is used if the params is UUID.class and String.class instead of Action.class
      *
      * @return permission
      */
-    boolean checkAccess(UUID projectId, String action);
+    default boolean checkAccess(UUID projectId, String action) {
+        return checkAccess(projectId, Operation.valueOf(action.toUpperCase()));
+    }
+
 
     /**
      * Performs evaluation of authorization policies using given set of projects and operation for
@@ -93,7 +100,9 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    boolean checkAccess(String entityName, UUID projectId, String action);
+    default boolean checkAccess(String entityName, UUID projectId, String action) {
+        return checkAccess(entityName, projectId, Operation.valueOf(action.toUpperCase()));
+    }
 
     /**
      * Performs evaluation of authorization policies using given entity name, current project and operation for
@@ -101,7 +110,9 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    boolean checkAccess(String entityName, String projectId, String action);
+    default boolean checkAccess(String entityName, String projectId, String action) {
+        return checkAccess(entityName, UUID.fromString(projectId), Operation.valueOf(action.toUpperCase()));
+    }
 
     /**
      * Performs evaluation of authorization policies using given current project, objectId and operation for
@@ -117,7 +128,9 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    boolean checkAccess(String entityName, UUID projectId, UUID objectId, String operation);
+    default boolean checkAccess(String entityName, UUID projectId, UUID objectId, String operation) {
+        return checkAccess(entityName, projectId, objectId, Operation.valueOf(operation));
+    }
 
     /**
      * Performs evaluation of authorization policies using given current project, set of objectIds and operation for
@@ -133,7 +146,9 @@ public interface PolicyEnforcement {
      *
      * @return permission
      */
-    boolean checkAccess(String entityName, UUID projectId, Set<UUID> objectIds, String operation);
+    default boolean checkAccess(String entityName, UUID projectId, Set<UUID> objectIds, String operation) {
+        return checkAccess(entityName, projectId, objectIds, Operation.valueOf(operation));
+    }
 
     /**
      * Performs evaluation of authorization policies using given current project, set of objectIds and operation for
@@ -174,9 +189,19 @@ public interface PolicyEnforcement {
      * @param atpRunners list of atp runners ID
      * @return {@link Project}
      */
-    Project getProjectEntityWithGroup(UUID projectId, List<UUID> leads, List<UUID> qaTaEngineers,
-                                      List<UUID> devOpsEngineers, List<UUID> atpRunners,
-                                      List<UUID> atpSupports, Permissions permissions);
+    default Project getProjectEntityWithGroup(UUID projectId, List<UUID> leads, List<UUID> qaTaEngineers,
+                                              List<UUID> devOpsEngineers, List<UUID> atpRunners,
+                                              List<UUID> atpSupports, Permissions permissions) {
+        Project project = new Project();
+        project.setUuid(projectId);
+        project.setLeads(new HashSet<>(leads));
+        project.setQaTaEngineers(new HashSet<>(qaTaEngineers));
+        project.setDevOpsEngineers(new HashSet<>(devOpsEngineers));
+        project.setAtpRunners(new HashSet<>(atpRunners));
+        project.setAtpSupports(new HashSet<>(atpSupports));
+        project.setPermissions(permissions);
+        return project;
+    }
 
     /**
      * Check policy for project.
