@@ -16,9 +16,24 @@
 
 package org.qubership.atp.auth.springbootstarter.services;
 
-import org.qubership.atp.auth.springbootstarter.entities.ServiceEntities;
+import java.util.UUID;
 
+import org.qubership.atp.auth.springbootstarter.entities.ServiceEntities;
+import org.qubership.atp.auth.springbootstarter.services.client.UsersFeignClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class UsersService {
+
+    private final UsersFeignClient usersFeignClient;
+    private final KafkaTemplate<UUID, String> kafkaTemplate;
+    @Value("${kafka.service.entities.topic:service_entities}")
+    private String topicName;
+    @Value("${spring.application.name}")
+    private String serviceName;
 
     /**
      * Sends service entities to the atp-users. Stub implementation.
