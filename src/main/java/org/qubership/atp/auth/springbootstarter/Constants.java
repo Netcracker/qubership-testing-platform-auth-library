@@ -20,4 +20,6 @@ public interface Constants {
 
     String AUTHORIZATION_HEADER_NAME = "Authorization";
     String BEARER_TOKEN_TYPE = "Bearer";
+    String AUTH_PROJECTS_CACHE_NAME = "auth_projects";
+    String AUTH_OBJECTS_CACHE_NAME = "auth_objects";
 }
