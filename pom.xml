@@ -10,7 +10,7 @@
 
     <groupId>org.qubership.atp.auth</groupId>
     <artifactId>atp-auth-spring-boot-starter</artifactId>
-    <version>1.2.62-SNAPSHOT</version>
+    <version>1.2.68-SNAPSHOT</version>
 
     <properties>
         <atp.common.version>0.0.43</atp.common.version>

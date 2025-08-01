@@ -22,9 +22,21 @@ This library is used to check user permissions, to perform users authorization a
 ```
 
 #### 2. Add Authentication properties into application.properties
+Please note:
+- Exact names of caches are set in auth-library source code in Constants class,
+- So, spring.cache.cache-names setting value should be combined from two constants' values:
+  - Constants.AUTH_PROJECTS_CACHE_NAME, Constants.AUTH_OBJECTS_CACHE_NAME
+- And, please check/fix projects cache name in such typical usages of this name:
+  - Old-style usages:
+    - @CacheConfig(cacheNames = {"projects", "auth_objects"})
+    - @Cacheable("projects")
+  - New-style recommendations:
+    - @CacheConfig(cacheNames = {Constants.AUTH_PROJECTS_CACHE_NAME, Constants.AUTH_OBJECTS_CACHE_NAME})
+    - @Cacheable(Constants.AUTH_PROJECTS_CACHE_NAME)
+
 ```text
 ##==================atp-auth-spring-boot-starter=====================
-spring.cache.cache-names: projects, auth_objects
+spring.cache.cache-names: auth_projects, auth_objects
 spring.cache.caffeine.spec: maximumSize=100, expireAfterAccess=120s
 
 keycloak.resource=""
@@ -224,11 +236,15 @@ atp.logging.feignclient.headers.ignore=${ATP_HTTP_LOGGING_HEADERS_IGNORE:}
 ```
 
 By default, 'atp.logging.resttemplate.headers' value is false.
-* _atp.logging.resttemplate.headers_ - To log request/response headers for RelayRestTemplate and M2MRestTemplate.
-* _atp.logging.resttemplate.headers.ignore_ - To ignore specified headers while logging. Tokens should be separated with spaces.
-* _atp.logging.feignclient.headers_ - To ignore request/response headers for FeignClient.
-* _atp.logging.feignclient.headers.ignore_ - To ignore specified headers for FeignClient. Tokens should be separated with spaces.
-* Properties _atp.logging.resttemplate.headers.ignore_ and _atp.logging.feignclient.headers.ignore_ support regular expressions.
+- _atp.logging.resttemplate.headers_
+  - To log request/response headers for RelayRestTemplate and M2MRestTemplate.
+- _atp.logging.resttemplate.headers.ignore_
+  - To ignore specified headers while logging. Tokens should be separated with spaces.
+- _atp.logging.feignclient.headers_
+  - To ignore request/response headers for FeignClient.
+- _atp.logging.feignclient.headers.ignore_
+  - To ignore specified headers for FeignClient. Tokens should be separated with spaces.
+- Properties _atp.logging.resttemplate.headers.ignore_ and _atp.logging.feignclient.headers.ignore_ support regular expressions.
 
 #### 2. Add configuration into logback.xml
 ```xml

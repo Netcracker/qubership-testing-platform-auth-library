@@ -23,6 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
+import org.qubership.atp.auth.springbootstarter.Constants;
 import org.qubership.atp.auth.springbootstarter.entities.ObjectPermissions;
 import org.qubership.atp.auth.springbootstarter.entities.Operations;
 import org.qubership.atp.auth.springbootstarter.entities.Permissions;
@@ -42,7 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@CacheConfig(cacheNames = {"projects", "auth_objects"})
+@CacheConfig(cacheNames = {Constants.AUTH_PROJECTS_CACHE_NAME, Constants.AUTH_OBJECTS_CACHE_NAME})
 public class UsersService {
 
     private final UsersFeignClient usersFeignClient;
@@ -57,7 +58,7 @@ public class UsersService {
      *
      * @return {@link Project}
      */
-    @Cacheable("projects")
+    @Cacheable(Constants.AUTH_PROJECTS_CACHE_NAME)
     public Project getUsersByProject(UUID projectId) {
         return usersFeignClient.getUsersByProject(projectId);
     }
