@@ -34,13 +34,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "${feign.atp.users.name}", url = "${feign.atp.users.url}")
 public interface UsersFeignClient {
 
+    /**
+     * Get Users with roles for the Project identified by UUID projectId.
+     *
+     * @param projectId UUID of a Project
+     * @return Project object with Users vs. Roles information.
+     */
     @RequestMapping(method = RequestMethod.GET,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}")
     Project getUsersByProject(@PathVariable("projectId") UUID projectId);
 
+    /**
+     * Save service entities for this service.
+     *
+     * @param serviceEntities ServiceEntities object to save.
+     */
     @RequestMapping(method = RequestMethod.PATCH, value = "${feign.atp.users.route}/api/v1/users/entities")
     void save(@RequestBody ServiceEntities serviceEntities);
 
+    /**
+     * Save object permissions for the project, service and object identified by id.
+     *
+     * @param projectId UUID id of a project,
+     * @param serviceName String service name,
+     * @param objectId String object id,
+     * @param assignedUsers Map of users (UUIDs) vs. permitted operations,
+     * @return ObjectPermissions stored.
+     */
     @RequestMapping(method = RequestMethod.PATCH,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/{objectId}/permissions")
@@ -49,6 +69,14 @@ public interface UsersFeignClient {
                                             @PathVariable String objectId,
                                             @RequestBody Map<UUID, Operations> assignedUsers);
 
+    /**
+     * Get object permissions for the project, service and object identified by id.
+     *
+     * @param projectId UUID id of a project,
+     * @param serviceName String service name,
+     * @param objectId String object id,
+     * @return Map of permissions.
+     */
     @RequestMapping(method = RequestMethod.GET,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/{objectId}/permissions")
@@ -56,16 +84,38 @@ public interface UsersFeignClient {
                                                                       @PathVariable String serviceName,
                                                                       @PathVariable String objectId);
 
+    /**
+     * Get object permissions for the project, service.
+     *
+     * @param projectId UUID id of a project,
+     * @param serviceName String service name,
+     * @return Map of permissions.
+     */
     @RequestMapping(method = RequestMethod.GET,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/permissions")
     Map<String, Map<UUID, Operations>> getObjectPermissionsByServiceName(@PathVariable UUID projectId,
                                                                          @PathVariable String serviceName);
 
+    /**
+     * Get users information for the project.
+     *
+     * @param projectId UUID id of a project,
+     * @param uuids List of user identifiers (UUID),
+     * @return List of UserInfo objects.
+     */
     @RequestMapping(method = RequestMethod.POST,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/users/info")
-    List<UserInfo> getUsersInfoByProjectId(@PathVariable UUID projectId, @RequestBody List<UUID> uuids);
+    List<UserInfo> getUsersInfoByProjectId(@PathVariable UUID projectId,
+                                           @RequestBody List<UUID> uuids);
 
+    /**
+     * Delete object permissions for the project, service and object identified by id.
+     *
+     * @param projectId UUID id of a project,
+     * @param serviceName String service name,
+     * @param objectId String object id.
+     */
     @RequestMapping(method = RequestMethod.DELETE,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/{objectId}/permissions")
@@ -73,6 +123,13 @@ public interface UsersFeignClient {
                                  @PathVariable String serviceName,
                                  @PathVariable String objectId);
 
+    /**
+     * Delete object permissions for the project, service and object identified by id.
+     *
+     * @param projectId UUID id of a project,
+     * @param serviceName String service name,
+     * @param objectIds List of String object ids.
+     */
     @RequestMapping(method = RequestMethod.DELETE,
             value = "${feign.atp.users.route}${atp-auth.project_info_endpoint}/{projectId}/services/{serviceName}"
                     + "/objects/permissions")

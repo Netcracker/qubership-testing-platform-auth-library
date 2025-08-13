@@ -26,10 +26,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Permissions implements Serializable {
     private static final long serialVersionUID = -8475673651467327135L;
+
+    /**
+     * Operations' permissions for Leads group.
+     */
     private Map<String, Operations> leads;
+
+    /**
+     * Operations' permissions for QA/TA Engineers group.
+     */
     private Map<String, Operations> qaTaEngineers;
+
+    /**
+     * Operations' permissions for DevOps Engineers group.
+     */
     private Map<String, Operations> devOpsEngineers;
+
+    /**
+     * Operations' permissions for ATP Runners group.
+     */
     private Map<String, Operations> atpRunners;
+
+    /**
+     * Operations' permissions for ATP Support group.
+     */
     private Map<String, Operations> atpSupports;
 
     /**
@@ -38,7 +58,7 @@ public class Permissions implements Serializable {
      * @param group group for which need to return permissions
      * @return permissions for specified group
      */
-    public Map<String, Operations> getPermissionsByGroup(Group group) {
+    public Map<String, Operations> getPermissionsByGroup(final Group group) {
         switch (group) {
             case LEAD:
                 return leads;

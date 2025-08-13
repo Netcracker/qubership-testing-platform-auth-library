@@ -24,7 +24,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class MockUtils {
-    public static void mockSecurityContextHolder(String expectedToken) {
+
+    /**
+     * Configure mock of SecurityContextHolder.
+     *
+     * @param expectedToken String containing token.
+     */
+    public static void mockSecurityContextHolder(final String expectedToken) {
         KeycloakSecurityContext keycloakSecurityContext = Mockito.mock(KeycloakSecurityContext.class);
         AccessToken token = Mockito.mock(AccessToken.class);
         Mockito.lenient().when(keycloakSecurityContext.getTokenString()).thenReturn(expectedToken);

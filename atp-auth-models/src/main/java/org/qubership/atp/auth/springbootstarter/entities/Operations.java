@@ -30,18 +30,48 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 public class Operations implements Serializable {
     private static final long serialVersionUID = -6807095207165209809L;
+
+    /**
+     * 'Create' flag.
+     */
     private boolean create;
+
+    /**
+     * 'Read' flag.
+     */
     private boolean read;
+
+    /**
+     * 'Update' flag.
+     */
     private boolean update;
+
+    /**
+     * 'Delete' flag.
+     */
     private boolean delete;
+
+    /**
+     * 'Execute' flag.
+     */
     private boolean execute;
+
+    /**
+     * 'Lock' flag.
+     */
     private boolean lock;
+
+    /**
+     * 'Unlock' flag.
+     */
     private boolean unlock;
 
     /**
      * Return permission for specified operation {@link Operation}.
+     *
+     * @param operation Operation to check (if it available or not?).
      */
-    public boolean isOperationAvailable(Operation operation) {
+    public boolean isOperationAvailable(final Operation operation) {
         boolean permissionForOperation = false;
         try {
             Field field = this.getClass().getDeclaredField(operation.toString());

@@ -23,6 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TestController {
 
+    /**
+     * Test that controller accepts requests and is able to respond.
+     *
+     * @return String response; always returns "OK".
+     */
     @RequestMapping("/api/test")
     @ResponseBody
     public String test() {

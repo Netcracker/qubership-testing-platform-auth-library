@@ -46,11 +46,12 @@ public class GlobalExceptionHandlerTest {
 
     /**
      * Test returning exception with stacktrace.
+     *
      * @throws Exception - in case processing exceptions in the GlobalExceptionHandler.
      */
     @Test
     public void testReturnExceptionWithStackTrace() throws Exception {
-        ReflectionTestUtils.setField(globalExceptionHandler,"includeStackTrace",true);
+        ReflectionTestUtils.setField(globalExceptionHandler, "includeStackTrace", true);
         ErrorResponse errorResponse = fillAndCheckResponse();
         assertNotNull(errorResponse.trace);
     }

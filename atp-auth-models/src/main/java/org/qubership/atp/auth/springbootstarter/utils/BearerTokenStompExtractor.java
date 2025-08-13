@@ -24,8 +24,15 @@ import org.qubership.atp.auth.springbootstarter.Constants;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 
 public class BearerTokenStompExtractor implements HeaderValueExtractor<String, StompHeaderAccessor> {
+
+    /**
+     * Extract token value from Authorization Http Header value.
+     *
+     * @param accessor StompHeaderAccessor object
+     * @return String token value.
+     */
     @Override
-    public String extract(StompHeaderAccessor accessor) {
+    public String extract(final StompHeaderAccessor accessor) {
         String token = accessor.getFirstNativeHeader(Constants.AUTHORIZATION_HEADER_NAME);
         if (!Objects.isNull(token)) {
             return token.replace(BEARER_TOKEN_TYPE + " ", "");

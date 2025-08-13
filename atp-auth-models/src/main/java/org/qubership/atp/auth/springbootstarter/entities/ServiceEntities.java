@@ -23,7 +23,19 @@ import lombok.Data;
 
 @Data
 public class ServiceEntities {
+
+    /**
+     * Entry id.
+     */
     private UUID uuid;
+
+    /**
+     * Service name.
+     */
     private String service;
+
+    /**
+     * List of entities' names.
+     */
     private List<String> entities;
 }

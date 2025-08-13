@@ -27,11 +27,14 @@ import org.springframework.util.SerializationUtils;
 
 public class ProjectTest implements Serializable {
 
+    /**
+     * Test of project serializing.
+     */
     @Test
     public void whenSerializing_ThenNoException() {
         Project p1 = new Project();
         p1.setUuid(UUID.randomUUID());
-        p1.setLeads(new HashSet<UUID>(){{
+        p1.setLeads(new HashSet<UUID>() {{
             add(UUID.randomUUID());
             add(UUID.randomUUID());
         }});

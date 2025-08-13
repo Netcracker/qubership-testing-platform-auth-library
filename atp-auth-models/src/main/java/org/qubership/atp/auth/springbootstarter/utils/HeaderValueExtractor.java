@@ -20,10 +20,12 @@ package org.qubership.atp.auth.springbootstarter.utils;
  * Extract data from http request.
  */
 public interface HeaderValueExtractor<T, K> {
+
     /**
      * Returns the extracted value from request.
      *
-     * @return T
+     * @param request K object to process
+     * @return T object extracted.
      */
     T extract(K request);
 }

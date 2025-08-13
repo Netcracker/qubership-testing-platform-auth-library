@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,13 +39,22 @@ import feign.Response;
 
 public class FeignClientExceptionErrorDecoderClass {
 
+    /**
+     * FeignClientExceptionErrorDecoder object.
+     */
     private FeignClientExceptionErrorDecoder feignClientExceptionErrorDecoder;
 
+    /**
+     * Before-tests actions.
+     */
     @Before
     public void setUp() {
         feignClientExceptionErrorDecoder = new FeignClientExceptionErrorDecoder();
     }
 
+    /**
+     * Test of decoding of null body.
+     */
     @Test
     public void decode_WhenBodyNotNull_ShouldReturnFeignClientException() {
         String methodKey = "";
@@ -75,12 +85,12 @@ public class FeignClientExceptionErrorDecoderClass {
             }
 
             @Override
-            public Reader asReader(Charset charset) throws IOException {
+            public Reader asReader(final Charset charset) throws IOException {
                 return new InputStreamReader(asInputStream(), charset);
             }
         };
 
-        Integer code = 404;
+        Integer code = HttpStatus.SC_NOT_FOUND;
 
         when(response.body()).thenReturn(body);
         when(response.status()).thenReturn(code);

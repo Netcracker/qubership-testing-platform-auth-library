@@ -33,11 +33,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@Profile(value = {"default","disable-security"})
+@Profile(value = {"default", "disable-security"})
 public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
-     * Allow all PolicyEnforcement, will be used where you do not need to check permissions.
+     * Allow all PolicyEnforcement, will be used if there is no need to check permissions.
+     *
+     * @return PolicyEnforcement bean.
      */
     @Bean("entityAccess")
     public PolicyEnforcement entityAccessEnforcement() {
@@ -73,47 +75,67 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
             }
 
             @Override
-            public boolean checkAccess(String entityName, Set<UUID> projectIdSet, String action) {
+            public boolean checkAccess(final String entityName,
+                                       final Set<UUID> projectIdSet,
+                                       final String action) {
                 return true;
             }
 
             @Override
-            public boolean checkAccess(String entityName, UUID projectId, String action) {
+            public boolean checkAccess(final String entityName,
+                                       final UUID projectId,
+                                       final String action) {
                 return true;
             }
 
             @Override
-            public boolean checkAccess(String entityName, String projectId, String action) {
+            public boolean checkAccess(final String entityName,
+                                       final String projectId,
+                                       final String action) {
                 return true;
             }
 
             @Override
-            public boolean checkAccess(String entityName, UUID projectId, UUID objectId, Operation operation) {
+            public boolean checkAccess(final String entityName,
+                                       final UUID projectId,
+                                       final UUID objectId,
+                                       final Operation operation) {
                 return true;
             }
 
             @Override
-            public boolean checkAccess(String entityName, UUID projectId, UUID objectId, String operation) {
+            public boolean checkAccess(final String entityName,
+                                       final UUID projectId,
+                                       final UUID objectId,
+                                       final String operation) {
                 return true;
             }
 
             @Override
-            public boolean checkAccess(String entityName, UUID projectId, Set<UUID> objectIds, Operation operation) {
+            public boolean checkAccess(final String entityName,
+                                       final UUID projectId,
+                                       final Set<UUID> objectIds,
+                                       final Operation operation) {
                 return true;
             }
 
             @Override
-            public boolean checkAccess(String entityName, UUID projectId, Set<UUID> objectIds, String operation) {
+            public boolean checkAccess(final String entityName,
+                                       final UUID projectId,
+                                       final Set<UUID> objectIds,
+                                       final String operation) {
                 return true;
             }
 
             @Override
-            public boolean checkExternalAccess(String entityName, UUID projectId, Operation action) {
+            public boolean checkExternalAccess(final String entityName,
+                                               final UUID projectId,
+                                               final Operation action) {
                 return true;
             }
 
             @Override
-            public boolean checkExternalAccess(String projectId, String action) {
+            public boolean checkExternalAccess(final String projectId, final String action) {
                 return true;
             }
 
@@ -138,22 +160,36 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
             }
 
             @Override
-            public Project getProjectEntityWithGroup(UUID projectId, List<UUID> leads, List<UUID> qaTaEngineers, List<UUID> devOpsEngineers, List<UUID> atpRunners, List<UUID> atpSupports, Permissions permissions) {
+            public Project getProjectEntityWithGroup(final UUID projectId,
+                                                     final List<UUID> leads,
+                                                     final List<UUID> qaTaEngineers,
+                                                     final List<UUID> devOpsEngineers,
+                                                     final List<UUID> atpRunners,
+                                                     final List<UUID> atpSupports,
+                                                     final Permissions permissions) {
                 return null;
             }
 
             @Override
-            public boolean checkPoliciesForOperation(Project project, Operation operation) {
+            public boolean checkPoliciesForOperation(final Project project,
+                                                     final Operation operation) {
                 return true;
             }
 
             @Override
-            public boolean checkPoliciesForOperation(String entityName, Project project, Operation operation) {
+            public boolean checkPoliciesForOperation(final String entityName,
+                                                     final Project project,
+                                                     final Operation operation) {
                 return true;
             }
         };
     }
 
+    /**
+     * Get User Info Provider.
+     *
+     * @return new DisableSecurityUserProvider instance.
+     */
     @Bean("userInfoProvider")
     public Provider<UserInfo> userInfoProvider() {
         return new DisableSecurityUserProvider();

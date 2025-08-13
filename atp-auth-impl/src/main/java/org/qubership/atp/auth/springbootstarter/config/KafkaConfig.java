@@ -36,18 +36,34 @@ import org.springframework.kafka.core.KafkaTemplate;
 @ConditionalOnProperty(name = "kafka.enable", havingValue = "true")
 public class KafkaConfig {
 
+    /**
+     * Topic name to send service entities to.
+     */
     @Value("${kafka.service.entities.topic}")
     private String kafkaServiceEntitiesTopic;
+
+    /**
+     * Number of partitions for the topic.
+     */
     @Value("${kafka.service.entities.topic.partitions:1}")
     private int kafkaServiceEntitiesTopicPartitions;
+
+    /**
+     * Replication factor for the topic.
+     */
     @Value("${kafka.service.entities.topic.replicas:3}")
     private short kafkaServiceEntitiesTopicReplicationFactor;
+
+    /**
+     * Kafka bootstrap servers.
+     */
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String kafkaServers;
 
     /**
      * Create KafkaTemplate for service entities.
      *
+     * @return KafkaTemplate of UUID, String; built from mandatory properties.
      */
     @Bean
     public KafkaTemplate<UUID, String> kafkaServiceEntitiesTemplate() {
@@ -60,7 +76,8 @@ public class KafkaConfig {
 
     /**
      * Create topic for service entities.
-     * @return NewTopic
+     *
+     * @return NewTopic.
      */
     @Bean
     public NewTopic serviceEntitiesTopic() {

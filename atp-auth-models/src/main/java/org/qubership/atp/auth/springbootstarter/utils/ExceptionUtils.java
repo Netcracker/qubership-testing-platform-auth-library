@@ -28,9 +28,9 @@ public class ExceptionUtils {
      * Log and throw the error.
      *
      * @param log logger
-     * @param exception error
+     * @param exception error.
      */
-    public static void throwWithLog(Logger log, AtpException exception) {
+    public static void throwWithLog(final Logger log, final AtpException exception) {
         String message = exception.getMessage();
         log.error(message, exception);
 

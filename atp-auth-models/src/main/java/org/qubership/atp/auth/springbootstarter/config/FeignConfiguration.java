@@ -37,6 +37,9 @@ import feign.codec.ErrorDecoder;
 @Configuration
 public class FeignConfiguration {
 
+    /**
+     * HttpMessageConverters object.
+     */
     private volatile HttpMessageConverters feignHttpMessageConverters;
 
     @Bean

@@ -18,6 +18,13 @@ package org.qubership.atp.auth.springbootstarter;
 
 public interface Constants {
 
+    /**
+     * Constant for Authorization Http Header Name.
+     */
     String AUTHORIZATION_HEADER_NAME = "Authorization";
+
+    /**
+     * Constant for Bearer Token Type Name.
+     */
     String BEARER_TOKEN_TYPE = "Bearer";
 }
