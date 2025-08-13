@@ -36,11 +36,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Oauth2FeignClientInterceptor implements RequestInterceptor {
 
+    /**
+     * Bean providing access token.
+     */
     private final AccessTokenProvider accessTokenProvider;
+
+    /**
+     * OAuth2ProtectedResourceDetails object field.
+     */
     private final OAuth2ProtectedResourceDetails protectedResourceDetails;
+
+    /**
+     * Tracer bean.
+     */
     private final Tracer tracer;
+
+    /**
+     * AccessTokenRequest object.
+     */
     private final AccessTokenRequest accessTokenRequest;
 
+    /**
+     * Expiry/refresh timeout in seconds.
+     */
     @Value("${atp-auth.refreshTimeBeforeExpirationInSec:300}")
     private Integer refreshTimeBeforeExpiration;
 
@@ -49,12 +67,11 @@ public class Oauth2FeignClientInterceptor implements RequestInterceptor {
      *
      * @param accessTokenProvider      accessTokenProvider
      * @param protectedResourceDetails protectedResourceDetails
-     * @param tracer                   tracer
+     * @param tracer                   tracer.
      */
-    public Oauth2FeignClientInterceptor(
-            AccessTokenProvider accessTokenProvider,
-            OAuth2ProtectedResourceDetails protectedResourceDetails,
-            Tracer tracer) {
+    public Oauth2FeignClientInterceptor(final AccessTokenProvider accessTokenProvider,
+                                        final OAuth2ProtectedResourceDetails protectedResourceDetails,
+                                        final Tracer tracer) {
         this(accessTokenProvider, protectedResourceDetails, tracer, new DefaultAccessTokenRequest());
     }
 
@@ -64,28 +81,36 @@ public class Oauth2FeignClientInterceptor implements RequestInterceptor {
      * @param accessTokenProvider       accessTokenProvider
      * @param protectedResourceDetails  protectedResourceDetails
      * @param tracer                    tracer
-     * @param accessTokenRequest        accessTokenRequest
+     * @param accessTokenRequest        accessTokenRequest.
      */
-    public Oauth2FeignClientInterceptor(
-            AccessTokenProvider accessTokenProvider,
-            OAuth2ProtectedResourceDetails protectedResourceDetails,
-            Tracer tracer, AccessTokenRequest accessTokenRequest) {
+    public Oauth2FeignClientInterceptor(final AccessTokenProvider accessTokenProvider,
+                                        final OAuth2ProtectedResourceDetails protectedResourceDetails,
+                                        final Tracer tracer,
+                                        final AccessTokenRequest accessTokenRequest) {
         this.accessTokenProvider = accessTokenProvider;
         this.protectedResourceDetails = protectedResourceDetails;
         this.tracer = tracer;
         this.accessTokenRequest = accessTokenRequest;
     }
 
+    /**
+     * Apply changes to requestTemplate parameter object; stubbed implementation.
+     *
+     * @param requestTemplate RequestTemplate object to process.
+     */
     @Override
-    public void apply(RequestTemplate requestTemplate) {
+    public void apply(final RequestTemplate requestTemplate) {
         log.debug("start apply [requestTemplate.path={}]", requestTemplate.path());
         return; // Stubbed implementation
     }
 
     /**
      * Add or replace bearer token.
+     *
+     * @param requestTemplate RequestTemplate object to process
+     * @param token String token value (Bearer token).
      */
-    public void setAuthorizationHeader(RequestTemplate requestTemplate, String token) {
+    public void setAuthorizationHeader(final RequestTemplate requestTemplate, final String token) {
         requestTemplate.header(AUTHORIZATION_HEADER_NAME, String.format("%s %s", BEARER_TOKEN_TYPE, token));
         Collection<String> authorizationHeaderValues = requestTemplate.headers().get(AUTHORIZATION_HEADER_NAME);
         boolean authorizationHeaderHasToken = authorizationHeaderValues.stream()

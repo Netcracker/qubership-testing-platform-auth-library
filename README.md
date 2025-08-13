@@ -8,14 +8,26 @@ This library is used to check user permissions, to perform users authorization a
 
 ### Authentication
 
-#### 1. Add dependency into pom.xml
+#### 1. Add dependencies into pom.xml
+- The 1st dependency is to artifact containing object models, interfaces, exceptions, annotations etc.
+- The 2nd dependency is to artifact containing implementation classes.
+- So, depending on usage, one needs to add the 1st dependency only (atp-auth-models) or both dependencies.
+
+**Please note**:
+- atp-auth-impl module in this repository contains **stubbed** implementation,
+- So, one need to implement fully-functional atp-auth-impl module instead of it, to use it for real security checks.
 ```xml
 <dependencies>
     ...
     <dependency>
         <groupId>org.qubership.atp.auth</groupId>
-        <artifactId>atp-auth-spring-boot-starter</artifactId>
-        <version>1.2.59</version>
+        <artifactId>atp-auth-models</artifactId>
+        <version>1.2.67</version>
+    </dependency>
+    <dependency>
+        <groupId>org.qubership.atp.auth</groupId>
+        <artifactId>atp-auth-impl</artifactId>
+        <version>1.2.67</version>
     </dependency> 
     ...
 </dependencies>

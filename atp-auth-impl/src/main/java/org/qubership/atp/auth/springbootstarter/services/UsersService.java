@@ -28,10 +28,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsersService {
 
+    /**
+     * Feign client to Users Service.
+     */
     private final UsersFeignClient usersFeignClient;
+
+    /**
+     * Kafka Template.
+     */
     private final KafkaTemplate<UUID, String> kafkaTemplate;
+
+    /**
+     * Topic name to send user service entities.
+     */
     @Value("${kafka.service.entities.topic:service_entities}")
     private String topicName;
+
+    /**
+     * Service name.
+     */
     @Value("${spring.application.name}")
     private String serviceName;
 
@@ -40,7 +55,7 @@ public class UsersService {
      *
      * @param serviceEntities service entities to send
      */
-    public void sendEntities(ServiceEntities serviceEntities) {
+    public void sendEntities(final ServiceEntities serviceEntities) {
     }
 
 }
