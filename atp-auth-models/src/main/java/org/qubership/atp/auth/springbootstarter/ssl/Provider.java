@@ -18,5 +18,10 @@ package org.qubership.atp.auth.springbootstarter.ssl;
 
 public interface Provider<T> {
 
+    /**
+     * Provide an object.
+     *
+     * @return T class object.
+     */
     T get();
 }

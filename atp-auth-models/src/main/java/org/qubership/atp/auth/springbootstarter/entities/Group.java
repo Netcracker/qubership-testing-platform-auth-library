@@ -17,7 +17,36 @@
 package org.qubership.atp.auth.springbootstarter.entities;
 
 public enum Group {
-    LEAD, ENGINEER, DEVOPS, EXECUTOR, SUPPORT, DEFAULT;
+
+    /**
+     * Group of QA/TA Leads.
+     */
+    LEAD,
+
+    /**
+     * Group of QA/TA Engineers.
+     */
+    ENGINEER,
+
+    /**
+     * Group of DevOps Engineers.
+     */
+    DEVOPS,
+
+    /**
+     * Group of Runners (who can execute test runs).
+     */
+    EXECUTOR,
+
+    /**
+     * Group of Support Staff.
+     */
+    SUPPORT,
+
+    /**
+     * Default Group (this group means a user doesn't have permissions in the project).
+     */
+    DEFAULT;
 
     @Override
     public String toString() {

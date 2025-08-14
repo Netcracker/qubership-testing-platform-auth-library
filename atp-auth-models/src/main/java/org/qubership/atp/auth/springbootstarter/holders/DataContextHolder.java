@@ -23,6 +23,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Stores objects in context.
+ *
+ * @param &lt;T&gt; class of objects stored in the holder.
  */
 public interface DataContextHolder<T> {
 

@@ -25,8 +25,11 @@ public class ReflectionUtils {
 
     /**
      * Get generic class simple name.
+     *
+     * @param target Object to get short class name
+     * @return String short class name.
      */
-    public static String getGenericClassSimpleName(Object target) {
+    public static String getGenericClassSimpleName(final Object target) {
         ParameterizedType genericSuperclass = (ParameterizedType) target.getClass().getGenericSuperclass();
         String fullClassName = genericSuperclass.getActualTypeArguments()[0].getTypeName();
 

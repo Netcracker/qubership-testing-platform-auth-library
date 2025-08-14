@@ -22,8 +22,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "ATP-0005")
 public class AtpExternalForbiddenException extends AtpException {
 
+    /**
+     * Default message.
+     */
     public static final String DEFAULT_MESSAGE = "External access to this endpoint is forbidden";
 
+    /**
+     * Constructor.
+     */
     public AtpExternalForbiddenException() {
         super(DEFAULT_MESSAGE);
     }

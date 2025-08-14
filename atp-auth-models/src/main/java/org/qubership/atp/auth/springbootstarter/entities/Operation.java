@@ -17,7 +17,41 @@
 package org.qubership.atp.auth.springbootstarter.entities;
 
 public enum Operation {
-    CREATE, READ, UPDATE, DELETE, EXECUTE, LOCK, UNLOCK;
+
+    /**
+     * Operation: create an object.
+     */
+    CREATE,
+
+    /**
+     * Operation: read an object.
+     */
+    READ,
+
+    /**
+     * Operation: update an object.
+     */
+    UPDATE,
+
+    /**
+     * Operation: delete an object.
+     */
+    DELETE,
+
+    /**
+     * Operation: execute an object.
+     */
+    EXECUTE,
+
+    /**
+     * Operation: lock an object.
+     */
+    LOCK,
+
+    /**
+     * Operation: unlock an object.
+     */
+    UNLOCK;
 
     @Override
     public String toString() {

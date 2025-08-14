@@ -31,9 +31,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ObjectPermissions implements Serializable {
+
+    /**
+     * Object id.
+     */
     @JsonProperty("uuid")
     private UUID id;
+
+    /**
+     * Project id.
+     */
     private UUID projectId;
+
+    /**
+     * Service name.
+     */
     private String service;
+
+    /**
+     * Map of permissions.
+     */
     private Map<String, Map<UUID, Operations>> permissions;
 }

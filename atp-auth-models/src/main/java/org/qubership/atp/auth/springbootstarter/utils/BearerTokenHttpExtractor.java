@@ -25,8 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 
 public class BearerTokenHttpExtractor implements HeaderValueExtractor<String, HttpServletRequest> {
 
+    /**
+     * Extract Bearer token value from Http Authorization Header value.
+     *
+     * @param request HttpServletRequest object to process
+     * @return String token value.
+     */
     @Override
-    public String extract(HttpServletRequest request) {
+    public String extract(final HttpServletRequest request) {
         String token = request.getHeader(AUTHORIZATION_HEADER_NAME);
         if (!Objects.isNull(token)) {
             return token.replace(BEARER_TOKEN_TYPE + " ", "");
