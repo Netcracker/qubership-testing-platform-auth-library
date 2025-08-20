@@ -16,24 +16,19 @@
 
 package org.qubership.atp.auth.springbootstarter.config;
 
-import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 
-@KeycloakConfiguration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Profile("default")
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter
-        implements WebSecurityConfigurer<WebSecurity> {
+public class SecurityConfiguration {
 
     /**
      * Service Name set in the service configuration.
@@ -48,46 +43,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     private String contentSecurityPolicy;
 
     /**
-     * Configure WebSecurity parameter object.
+     * Configure HTTP Security.
      *
-     * @param web WebSecurity object to be configured
-     * @throws Exception in case various configuration exceptions.
+     * @param http HTTP Security
+     * @throws Exception Exception
      */
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        super.configure(web);
-        web
-                .ignoring()
-                .antMatchers("/assets/**")
-                .antMatchers(HttpMethod.OPTIONS, "/**");
+    public void configureHttpSecurity(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .defaultsDisabled()
+                        .contentSecurityPolicy(policy -> policy.policyDirectives(contentSecurityPolicy))
+                )
+                .authorizeHttpRequests(registry -> registry.requestMatchers("/**").permitAll()
+                );
     }
 
     /**
-     * Configure HttpSecurity.
+     * Filter chain.
      *
-     * @param http HttpSecurity object to be configured
-     * @throws Exception in case various configuration exceptions.
+     * @param http HTTPSecurity object
+     * @return Security Filter Chain
+     * @throws Exception exception in case configuration problems.
      */
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        super.configure(http);
-        http
-                .headers()
-                .xssProtection().xssProtectionEnabled(false)
-                .and()
-                .contentSecurityPolicy(contentSecurityPolicy)
-                .and()
-                .frameOptions()
-                .sameOrigin()
-                .and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/ws/api").permitAll()
-                .antMatchers("/api/public/**").permitAll()
-                .antMatchers("/rest/deployment/**").permitAll()
-                .antMatchers("/*/api/**", "/api/**").authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        configureHttpSecurity(http);
+        return http.build();
     }
 }

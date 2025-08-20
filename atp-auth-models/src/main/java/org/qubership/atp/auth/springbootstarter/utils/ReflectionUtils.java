@@ -20,6 +20,9 @@ import java.lang.reflect.ParameterizedType;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * To be deleted in stubbed library, after upgrade to Spring Boot 3.
+ */
 @UtilityClass
 public class ReflectionUtils {
 

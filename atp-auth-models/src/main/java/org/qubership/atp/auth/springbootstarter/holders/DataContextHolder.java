@@ -18,8 +18,8 @@ package org.qubership.atp.auth.springbootstarter.holders;
 
 import java.util.Optional;
 
-import org.keycloak.KeycloakPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 /**
  * Stores objects in context.
@@ -47,8 +47,8 @@ public interface DataContextHolder<T> {
      *
      * @return principal
      */
-    default KeycloakPrincipal getPrincipal() {
-        return (KeycloakPrincipal) SecurityContextHolder
+    default Jwt getPrincipal() {
+        return (Jwt) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();

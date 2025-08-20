@@ -68,7 +68,7 @@ public class FeignClientException extends RetryableException {
                                 final Request.HttpMethod httpMethod,
                                 final Map<String, Collection<String>> headers,
                                 final Request request) {
-        super(status, String.format("%d %s", status, errorMessage), httpMethod, null, request);
+        super(status, String.format("%d %s", status, errorMessage), httpMethod, (Long)null, request);
         this.status = status;
         this.errorMessage = errorMessage;
         this.headers = headers;

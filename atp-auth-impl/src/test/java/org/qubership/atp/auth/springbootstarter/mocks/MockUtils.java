@@ -16,30 +16,25 @@
 
 package org.qubership.atp.auth.springbootstarter.mocks;
 
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.representations.AccessToken;
+import java.util.Map;
+
 import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 public class MockUtils {
 
     /**
      * Configure mock of SecurityContextHolder.
      *
-     * @param expectedToken String containing token.
+     * @param claims Map of required permissions.
      */
-    public static void mockSecurityContextHolder(final String expectedToken) {
-        KeycloakSecurityContext keycloakSecurityContext = Mockito.mock(KeycloakSecurityContext.class);
-        AccessToken token = Mockito.mock(AccessToken.class);
-        Mockito.lenient().when(keycloakSecurityContext.getTokenString()).thenReturn(expectedToken);
-        Mockito.when(keycloakSecurityContext.getToken()).thenReturn(token);
-        //noinspection rawtypes
-        KeycloakPrincipal principal = Mockito.mock(KeycloakPrincipal.class);
-        Mockito.when(principal.getKeycloakSecurityContext()).thenReturn(keycloakSecurityContext);
+    public static void mockSecurityContextHolder(Map<String, Object> claims) {
+        Jwt jwt = Mockito.mock(Jwt.class);
+        claims.forEach((key, value) -> Mockito.when(jwt.getClaim(key)).thenReturn(value));
         Authentication authentication = Mockito.mock(Authentication.class);
-        Mockito.when(authentication.getPrincipal()).thenReturn(principal);
+        Mockito.when(authentication.getPrincipal()).thenReturn(jwt);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

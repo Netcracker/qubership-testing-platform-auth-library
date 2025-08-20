@@ -21,6 +21,9 @@ import org.slf4j.Logger;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * To be deleted in stubbed library, after upgrade to Spring Boot 3.
+ */
 @UtilityClass
 public class ExceptionUtils {
 

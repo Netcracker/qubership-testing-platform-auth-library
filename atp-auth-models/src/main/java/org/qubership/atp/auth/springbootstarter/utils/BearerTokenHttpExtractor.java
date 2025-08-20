@@ -21,7 +21,7 @@ import static org.qubership.atp.auth.springbootstarter.Constants.BEARER_TOKEN_TY
 
 import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class BearerTokenHttpExtractor implements HeaderValueExtractor<String, HttpServletRequest> {
 
