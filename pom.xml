@@ -243,13 +243,11 @@
                 <artifactId>undertow-servlet</artifactId>
                 <version>${io.undertow.undertow-core.version}</version>
             </dependency>
-            <!--
-            <dependency>
+            <!-- <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>5.7.13</version>
-            </dependency>
-            -->
+                <version>6.3.9</version>
+            </dependency> -->
             <dependency>
                 <groupId>org.keycloak.bom</groupId>
                 <artifactId>keycloak-adapter-bom</artifactId>
@@ -271,12 +269,12 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <!-- <version>5.7.13</version> -->
+                <version>6.3.9</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <!-- <version>5.7.13</version> -->
+                <version>6.3.9</version>
             </dependency>
             <dependency>
                 <groupId>org.xerial.snappy</groupId>
@@ -343,7 +341,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webflux</artifactId>
-                <!-- <version>5.3.33</version> -->
+                <version>6.1.19</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
