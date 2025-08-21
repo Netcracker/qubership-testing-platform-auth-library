@@ -18,7 +18,7 @@
     </modules>
 
     <properties>
-        <atp.common.version>0.0.45-SNAPSHOT</atp.common.version> <!-- Version in feature/springboot-upgrade branch and its children -->
+        <atp.common.version>0.0.45</atp.common.version> <!-- Version in feature/springboot-upgrade branch -->
         <java.version>21</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
