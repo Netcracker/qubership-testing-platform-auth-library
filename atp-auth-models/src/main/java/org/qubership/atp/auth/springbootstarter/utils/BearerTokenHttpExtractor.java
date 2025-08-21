@@ -28,7 +28,7 @@ public class BearerTokenHttpExtractor implements HeaderValueExtractor<String, Ht
     /**
      * Extract Bearer token value from Http Authorization Header value.
      *
-     * @param request HttpServletRequest object to process
+     * @param request HttpServletRequest object to extract token from its header.
      * @return String token value.
      */
     @Override

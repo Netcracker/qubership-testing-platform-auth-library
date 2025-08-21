@@ -32,7 +32,8 @@ public class MockUtils {
      */
     public static void mockSecurityContextHolder(Map<String, Object> claims) {
         Jwt jwt = Mockito.mock(Jwt.class);
-        claims.forEach((key, value) -> Mockito.when(jwt.getClaim(key)).thenReturn(value));
+        claims.forEach((key, value) ->
+                Mockito.when(jwt.getClaim(key)).thenReturn(value));
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getPrincipal()).thenReturn(jwt);
         SecurityContextHolder.getContext().setAuthentication(authentication);

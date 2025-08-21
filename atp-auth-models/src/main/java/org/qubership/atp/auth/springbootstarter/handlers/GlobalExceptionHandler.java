@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
      *
      * @param exception - Exception object
      * @param request   - HttpServletRequest
-     * @return ErrorResponse entity
+     * @return ErrorResponse entity.
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> commonHandler(Exception exception,

@@ -35,7 +35,6 @@ public class ReflectionUtils {
     public static String getGenericClassSimpleName(final Object target) {
         ParameterizedType genericSuperclass = (ParameterizedType) target.getClass().getGenericSuperclass();
         String fullClassName = genericSuperclass.getActualTypeArguments()[0].getTypeName();
-
         return fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
     }
 }

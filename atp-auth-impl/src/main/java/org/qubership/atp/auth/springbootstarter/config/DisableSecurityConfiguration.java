@@ -41,6 +41,7 @@ public class DisableSecurityConfiguration {
 
     @Value("${atp-auth.headers.content-security-policy:default-src 'self' *}")
     private String contentSecurityPolicy;
+
     /**
      * Allow all PolicyEnforcement, will be used if there is no need to check permissions.
      *
@@ -204,7 +205,7 @@ public class DisableSecurityConfiguration {
      * Configure HTTP Security.
      *
      * @param http HTTP Security
-     * @throws Exception Exception
+     * @throws Exception in case configuration errors faced.
      */
     public void configureHttpSecurity(HttpSecurity http) throws Exception {
         http

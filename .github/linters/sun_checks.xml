@@ -41,12 +41,21 @@
         <module name="SuppressWarningsHolder"/>
 
         <module name="UnusedImports"/>
-        <!--        <module name="AvoidStarImport">-->
+        <module name="AvoidStarImport"/>
+        <!--
         <module name="CustomImportOrder">
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="separateLineBetweenGroups" value="true"/>
             <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE###STATIC"/>
             <property name="tokens" value="IMPORT, STATIC_IMPORT, PACKAGE_DEF"/>
+        </module>
+        -->
+        <module name="ImportOrder">
+            <property name="groups" value="/^java\./,javax,org"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="above"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
 
         <module name="ConstantName"/>
