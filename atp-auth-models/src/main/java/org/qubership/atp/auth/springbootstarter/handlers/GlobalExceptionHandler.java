@@ -21,8 +21,6 @@ import static org.springframework.http.HttpStatus.valueOf;
 import java.net.URL;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
@@ -43,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
@@ -51,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
     /**
-     * Include Stack Trace (true/false) configuration variable.
+     * Include Stack Trace or not (true/false) configuration variable.
      */
     @Value("${atp.handler.exception.include-stack-trace:false}")
     private boolean includeStackTrace;
@@ -67,7 +66,7 @@ public class GlobalExceptionHandler {
      *
      * @param exception - Exception object
      * @param request   - HttpServletRequest
-     * @return ErrorResponse entity
+     * @return ErrorResponse entity.
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> commonHandler(Exception exception,

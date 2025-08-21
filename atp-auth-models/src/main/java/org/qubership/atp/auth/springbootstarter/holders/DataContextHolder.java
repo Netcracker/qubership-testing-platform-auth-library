@@ -18,8 +18,8 @@ package org.qubership.atp.auth.springbootstarter.holders;
 
 import java.util.Optional;
 
-import org.keycloak.KeycloakPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 /**
  * Stores objects in context.
@@ -29,7 +29,7 @@ public interface DataContextHolder<T> {
     /**
      * Save object in context.
      *
-     * @param object this object to save
+     * @param object this object to save.
      */
     default void set(T object) {
         throw new UnsupportedOperationException("This holder does not support the set operation.");
@@ -38,17 +38,17 @@ public interface DataContextHolder<T> {
     /**
      * Get object from context.
      *
-     * @return optional with object from context or empty optional
+     * @return optional with object from context or empty optional.
      */
     Optional<T> get();
 
     /**
      * Get principal from context.
      *
-     * @return principal
+     * @return principal.
      */
-    default KeycloakPrincipal getPrincipal() {
-        return (KeycloakPrincipal) SecurityContextHolder
+    default Jwt getPrincipal() {
+        return (Jwt) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
