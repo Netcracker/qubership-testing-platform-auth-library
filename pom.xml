@@ -5,12 +5,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.18</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath />
     </parent>
 
     <groupId>org.qubership.atp.auth</groupId>
     <artifactId>atp-auth-spring-boot-starter</artifactId>
-    <version>1.2.68-SNAPSHOT</version>
+    <version>1.2.71-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>atp-auth-models</module>
@@ -28,6 +28,13 @@
         <google.guava.version>32.0.0-jre</google.guava.version>
         <lombok.version>1.18.30</lombok.version>
         <ch.qos.logback.version>1.2.12</ch.qos.logback.version>
+
+        <net.bytebuddy.version>1.14.17</net.bytebuddy.version>
+        <io.github.openfeign.version>11.10</io.github.openfeign.version>
+        <io.undertow.undertow-core.version>2.2.36.Final</io.undertow.undertow-core.version>
+        <org.bouncycastle.version>1.70</org.bouncycastle.version>
+        <tomcat.embed.version>9.0.99</tomcat.embed.version>
+        <spring-security.version>5.7.13</spring-security.version>
     </properties>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -113,16 +120,18 @@
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>9.37.2</version>
         </dependency>
+
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-micrometer</artifactId>
-            <version>10.12</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hdrhistogram</groupId>
-                    <artifactId>HdrHistogram</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
@@ -163,16 +172,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
-            <version>11.10</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-httpclient</artifactId>
-            <version>11.10</version>
-        </dependency>
-        <dependency>
             <groupId>org.qubership.atp.common</groupId>
             <artifactId>qubership-atp-common-logging</artifactId>
             <version>${atp.common.version}</version>
@@ -186,7 +185,6 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.14.17</version>
         </dependency>
     </dependencies>
 
@@ -203,20 +201,19 @@
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.36.Final</version>
+                <version>${io.undertow.undertow-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-servlet</artifactId>
-                <version>2.2.36.Final</version>
+                <version>${io.undertow.undertow-core.version}</version>
             </dependency>
-            <!--
             <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
-                <version>5.7.13</version>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-websockets-jsr</artifactId>
+                <version>${io.undertow.undertow-core.version}</version>
             </dependency>
-            -->
+
             <dependency>
                 <groupId>org.keycloak.bom</groupId>
                 <artifactId>keycloak-adapter-bom</artifactId>
@@ -227,17 +224,17 @@
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-core</artifactId>
-                <version>9.0.99</version>
+                <version>${tomcat.embed.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-websocket</artifactId>
-                <version>9.0.99</version>
+                <version>${tomcat.embed.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-el</artifactId>
-                <version>9.0.99</version>
+                <version>${tomcat.embed.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.xmlunit</groupId>
@@ -248,12 +245,12 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>5.7.13</version>
+                <version>${spring-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>5.7.13</version>
+                <version>${spring-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.xerial.snappy</groupId>
@@ -265,42 +262,61 @@
                 <artifactId>kafka-clients</artifactId>
                 <version>3.7.2</version>
             </dependency>
+
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
-                <version>1.14.17</version>
+                <version>${net.bytebuddy.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy-agent</artifactId>
-                <version>1.14.17</version>
+                <version>${net.bytebuddy.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
-                <version>1.70</version>
+                <version>${org.bouncycastle.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk15on</artifactId>
-                <version>1.70</version>
+                <version>${org.bouncycastle.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-okhttp</artifactId>
-                <version>11.10</version>
-                <exclusions>
+                <version>${io.github.openfeign.version}</version>
+                <!-- <exclusions>
                     <exclusion>
                         <groupId>com.squareup.okio</groupId>
                         <artifactId>okio-jvm</artifactId>
                     </exclusion>
-                </exclusions>
+                </exclusions> -->
             </dependency>
-            <dependency>
+            <!-- <dependency>
                 <groupId>com.squareup.okio</groupId>
                 <artifactId>okio-jvm</artifactId>
                 <version>3.4.0</version>
+            </dependency> -->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version>${io.github.openfeign.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-micrometer</artifactId>
+                <version>${io.github.openfeign.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hdrhistogram</groupId>
+                        <artifactId>HdrHistogram</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webflux</artifactId>
