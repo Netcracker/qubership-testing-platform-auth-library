@@ -27,7 +27,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -59,8 +59,16 @@ public class GlobalExceptionHandler {
     /**
      * FeignClient ObjectMapper bean.
      */
-    @Autowired
-    private ObjectMapper feignClientObjectMapper;
+    private final ObjectMapper feignClientObjectMapper;
+
+    /**
+     * Constructor.
+     *
+     * @param feignClientObjectMapper ObjectMapper object initialized as Bean in FeignConfiguration class.
+     */
+    public GlobalExceptionHandler(@Qualifier("feignClientObjectMapper") ObjectMapper feignClientObjectMapper) {
+        this.feignClientObjectMapper = feignClientObjectMapper;
+    }
 
     /**
      * Global handler for exceptions.
