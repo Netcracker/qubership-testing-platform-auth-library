@@ -10,7 +10,7 @@
 
     <groupId>org.qubership.atp.auth</groupId>
     <artifactId>atp-auth-spring-boot-starter</artifactId>
-    <version>1.2.71-SNAPSHOT</version>
+    <version>1.2.72-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>atp-auth-models</module>
@@ -18,7 +18,7 @@
     </modules>
 
     <properties>
-        <atp.common.version>0.0.45</atp.common.version> <!-- Version in feature/springboot-upgrade branch -->
+        <atp.common.version>0.0.46</atp.common.version> <!-- Version in feature/springboot-upgrade branch -->
         <java.version>21</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -74,11 +74,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-1.2-api</artifactId>
-            <version>2.25.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
