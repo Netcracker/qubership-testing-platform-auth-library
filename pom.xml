@@ -10,7 +10,7 @@
 
     <groupId>org.qubership.atp.auth</groupId>
     <artifactId>atp-auth-spring-boot-starter</artifactId>
-    <version>1.2.72-SNAPSHOT</version>
+    <version>1.2.72</version>
     <packaging>pom</packaging>
     <modules>
         <module>atp-auth-models</module>
@@ -59,7 +59,7 @@
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-auth-library.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-auth-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-auth-library.git</url>
-      <tag>HEAD</tag>
+      <tag>v1.2.72</tag>
   </scm>
 
     <dependencies>
