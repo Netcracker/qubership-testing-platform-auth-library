@@ -27,14 +27,33 @@ import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.provider.impl.DisableSecurityUserProvider;
 import org.qubership.atp.auth.springbootstarter.security.permissions.PolicyEnforcement;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
+import org.qubership.atp.common.logging.interceptor.RestTemplateLogInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @Profile(value = {"default", "disable-security"})
 public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    /**
+     * Service Name set in the service configuration.
+     */
+    @Value("${spring.application.name}")
+    private String serviceName;
+
+    /**
+     * Content Security Policy to be applied.
+     */
+    @Value("${atp-auth.headers.content-security-policy:default-src 'self' *}")
+    private String contentSecurityPolicy;
 
     /**
      * Allow all PolicyEnforcement, will be used if there is no need to check permissions.
@@ -186,6 +205,32 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * Return a simple {@link RestTemplate} instead of a RestTemplate that applies a user token to
+     * each request.
+     *
+     * @param restTemplateLogInterceptor RestTemplateLogInterceptor object
+     * @return RestTemplate with SimpleClientHttpRequestFactory and the interceptor added.
+     */
+    @Bean("relayRestTemplate")
+    public RestTemplate relayRestTemplate(final RestTemplateLogInterceptor restTemplateLogInterceptor) {
+        RestTemplate restTemplate =
+                new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+        restTemplate.getInterceptors().add(restTemplateLogInterceptor);
+        return restTemplate;
+    }
+
+    /**
+     * Return a simple {@link WebClient} instead of a webclient that applies a user token to each
+     * request.
+     *
+     * @return simple WebClient.
+     */
+    @Bean("relayWebClient")
+    public WebClient relayWebClient() {
+        return WebClient.builder().build();
+    }
+
+    /**
      * Get User Info Provider.
      *
      * @return new DisableSecurityUserProvider instance.
@@ -193,6 +238,27 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean("userInfoProvider")
     public Provider<UserInfo> userInfoProvider() {
         return new DisableSecurityUserProvider();
+    }
+
+    /**
+     * Configure HttpSecurity as disabled security and all resources are permitted.
+     *
+     * @param http HttpSecurity object to be configured
+     * @throws Exception in case various configuration exceptions.
+     */
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http.csrf().disable();
+        http
+                .headers()
+                .defaultsDisabled()
+                .xssProtection().xssProtectionEnabled(false)
+                .and()
+                .contentSecurityPolicy(contentSecurityPolicy)
+                .and().and()
+                .authorizeRequests()
+                .antMatchers("/**")
+                .permitAll();
     }
 
 }
