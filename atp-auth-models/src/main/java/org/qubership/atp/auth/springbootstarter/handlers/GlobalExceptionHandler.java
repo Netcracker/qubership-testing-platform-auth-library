@@ -24,11 +24,14 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.util.Strings;
+import org.qubership.atp.auth.springbootstarter.config.FeignConfiguration;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
@@ -48,6 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 @Slf4j
+@Import({FeignConfiguration.class})
 public class GlobalExceptionHandler {
 
     /**
@@ -59,16 +63,8 @@ public class GlobalExceptionHandler {
     /**
      * FeignClient ObjectMapper bean.
      */
-    private final ObjectMapper feignClientObjectMapper;
-
-    /**
-     * Constructor.
-     *
-     * @param feignClientObjectMapper ObjectMapper object initialized as Bean in FeignConfiguration class.
-     */
-    public GlobalExceptionHandler(@Qualifier("feignClientObjectMapper") ObjectMapper feignClientObjectMapper) {
-        this.feignClientObjectMapper = feignClientObjectMapper;
-    }
+    @Autowired
+    private ObjectMapper feignClientObjectMapper;
 
     /**
      * Global handler for exceptions.
