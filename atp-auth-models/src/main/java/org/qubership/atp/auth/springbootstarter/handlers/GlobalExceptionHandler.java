@@ -24,14 +24,10 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.util.Strings;
-import org.qubership.atp.auth.springbootstarter.config.FeignConfiguration;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
@@ -43,28 +39,34 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 @Slf4j
-@Import({FeignConfiguration.class})
 public class GlobalExceptionHandler {
+
+    /**
+     * Own ObjectMapper instance.
+     */
+    private static final ObjectMapper OBJECT_MAPPER;
+
+    static {
+        OBJECT_MAPPER = new ObjectMapper();
+        OBJECT_MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        OBJECT_MAPPER.registerModule(new JavaTimeModule());
+    }
 
     /**
      * Include Stack Trace (true/false) configuration variable.
      */
     @Value("${atp.handler.exception.include-stack-trace:false}")
     private boolean includeStackTrace;
-
-    /**
-     * FeignClient ObjectMapper bean.
-     */
-    @Autowired
-    private ObjectMapper feignClientObjectMapper;
 
     /**
      * Global handler for exceptions.
@@ -112,7 +114,7 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> getFeignClientExceptionResponse(final Exception exception) throws Exception {
         FeignClientException feignException = (FeignClientException) exception;
         String errorMessage = feignException.getErrorMessage();
-        JsonNode errorNode = feignClientObjectMapper.readTree(errorMessage);
+        JsonNode errorNode = OBJECT_MAPPER.readTree(errorMessage);
 
         Integer status = feignException.getStatus();
         String url = feignException.getRequest().url();
