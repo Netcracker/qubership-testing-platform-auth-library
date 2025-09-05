@@ -18,6 +18,7 @@ package org.qubership.atp.auth.springbootstarter.config;
 
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientExceptionErrorDecoder;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
@@ -66,7 +67,7 @@ public class FeignConfiguration {
      */
     @Bean
     @Primary
-    public Encoder feignEncoder(final ObjectMapper feignClientObjectMapper) {
+    public Encoder feignEncoder(@Qualifier("feignClientObjectMapper") final ObjectMapper feignClientObjectMapper) {
         HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter(feignClientObjectMapper);
         ObjectFactory<HttpMessageConverters> objectFactory = () -> {
             if (feignHttpMessageConverters == null) {
@@ -83,6 +84,7 @@ public class FeignConfiguration {
      * @return ObjectMapper bean
      */
     @Bean
+    @Qualifier("feignClientObjectMapper")
     public ObjectMapper feignClientObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

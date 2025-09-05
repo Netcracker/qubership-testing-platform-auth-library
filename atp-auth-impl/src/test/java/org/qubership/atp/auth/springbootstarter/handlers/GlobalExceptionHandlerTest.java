@@ -37,12 +37,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class GlobalExceptionHandlerTest {
 
     /**
      * Global Exception Handler for exceptions processing.
      */
-    private final GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
+    private final GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler(new ObjectMapper());
 
     /**
      * Test returning exception with stacktrace.

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qubership.atp.auth</groupId>
         <artifactId>atp-auth-spring-boot-starter</artifactId>
-        <version>1.2.72-SNAPSHOT</version>
+        <version>1.2.73-SNAPSHOT</version>
     </parent>
 
     <artifactId>atp-auth-impl</artifactId>
