@@ -33,7 +33,7 @@
         <io.github.openfeign.version>11.10</io.github.openfeign.version>
         <io.undertow.undertow-core.version>2.2.36.Final</io.undertow.undertow-core.version>
         <org.bouncycastle.version>1.70</org.bouncycastle.version>
-        <tomcat.embed.version>9.0.99</tomcat.embed.version>
+        <tomcat.embed.version>9.0.108</tomcat.embed.version>
         <spring-security.version>5.7.13</spring-security.version>
     </properties>
 
@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
-            <version>9.37.2</version>
+            <version>9.37.4</version>
         </dependency>
 
         <dependency>
