@@ -40,7 +40,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-@Profile(value = {"default", "disable-security"})
+@Profile("disable-security")
 public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
@@ -249,16 +249,12 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http
-                .headers()
+        http.headers()
                 .defaultsDisabled()
                 .xssProtection().xssProtectionEnabled(false)
                 .and()
-                .contentSecurityPolicy(contentSecurityPolicy)
-                .and().and()
-                .authorizeRequests()
-                .antMatchers("/**")
-                .permitAll();
+                .contentSecurityPolicy(contentSecurityPolicy);
+        http.authorizeRequests(auth -> auth.anyRequest().permitAll());
     }
 
 }
