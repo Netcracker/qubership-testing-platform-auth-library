@@ -27,4 +27,14 @@ public interface Constants {
      * Constant for Bearer Token Type Name.
      */
     String BEARER_TOKEN_TYPE = "Bearer";
+
+    /**
+     * Constant for Auth Projects Cache Name.
+     */
+    String AUTH_PROJECTS_CACHE_NAME = "auth_projects";
+
+    /**
+     * Constant for Auth Objects Cache Name.
+     */
+    String AUTH_OBJECTS_CACHE_NAME = "auth_objects";
 }
