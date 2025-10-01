@@ -38,6 +38,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -89,11 +91,17 @@ public class UsersService {
     }
 
     /**
-     * Sends service entities to the atp-users. Stub implementation.
+     * Sends service entities to the atp-users.
      *
      * @param serviceEntities service entities to send.
      */
-    public void sendEntities(final ServiceEntities serviceEntities) {
+    public void sendEntities(final ServiceEntities serviceEntities) throws JsonProcessingException {
+        if (kafkaTemplate != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            kafkaTemplate.send(topicName, mapper.writeValueAsString(serviceEntities));
+        } else {
+            usersFeignClient.save(serviceEntities);
+        }
     }
 
     /**
