@@ -16,7 +16,9 @@
 
 package org.qubership.atp.auth.springbootstarter.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -38,8 +40,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -70,13 +70,24 @@ public class UsersService {
 
     /**
      * Return {@link Project} with user lists.
+     * Stubbed implementation,
+     *  so, instead of usersFeignClient.getUsersByProject(projectId),
+     *  empty Project is returned.
      *
      * @param projectId UUID of a project
      * @return {@link Project}
      */
     @Cacheable(Constants.AUTH_PROJECTS_CACHE_NAME)
     public Project getUsersByProject(final UUID projectId) {
-        return usersFeignClient.getUsersByProject(projectId);
+        Project project = new Project();
+        project.setUuid(projectId);
+        project.setLeads(new HashSet<>());
+        project.setQaTaEngineers(new HashSet<>());
+        project.setDevOpsEngineers(new HashSet<>());
+        project.setAtpRunners(new HashSet<>());
+        project.setAtpSupports(new HashSet<>());
+        project.setPermissions(new Permissions());
+        return project;
     }
 
     /**
@@ -92,20 +103,21 @@ public class UsersService {
 
     /**
      * Sends service entities to the atp-users.
+     * Stubbed implementation,
+     *  so, instead of sending of Entities via kafkaTemplate.send() or usersFeignClient.save(),
+     *  nothing is sent.
+     * It's because no Kafka service and/or no Users-Service-Backend might be running.
      *
      * @param serviceEntities service entities to send.
      */
-    public void sendEntities(final ServiceEntities serviceEntities) throws JsonProcessingException {
-        if (kafkaTemplate != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            kafkaTemplate.send(topicName, mapper.writeValueAsString(serviceEntities));
-        } else {
-            usersFeignClient.save(serviceEntities);
-        }
+    public void sendEntities(final ServiceEntities serviceEntities) {
     }
 
     /**
      * Get object permissions for the entity inside the project.
+     * Stubbed implementation, so, instead of
+     *  usersFeignClient.getObjectPermissionsByObjectId(projectId, serviceName, getObjectName(entityName, objectId)),
+     *  empty Map is returned.
      *
      * @param entityName String name of an entity
      * @param projectId UUID of a project
@@ -116,33 +128,50 @@ public class UsersService {
     public Map<String, Map<UUID, Operations>> getPermissionsByObjectId(final String entityName,
                                                                        final UUID projectId,
                                                                        final UUID objectId) {
-        return usersFeignClient.getObjectPermissionsByObjectId(projectId, serviceName,
-                getObjectName(entityName, objectId));
+        return new HashMap<>();
     }
 
     /**
      * Get object permissions for the service inside the project.
+     * Stubbed implementation, so, instead of
+     *  usersFeignClient.getObjectPermissionsByServiceName(projectId, serviceName),
+     *  empty Map is returned.
      *
      * @param projectId UUID of a project
      * @return Map of permissions.
      */
     public Map<String, Map<UUID, Operations>> getObjectPermissionsForService(final UUID projectId) {
-        return usersFeignClient.getObjectPermissionsByServiceName(projectId, serviceName);
+        return new HashMap<>();
     }
 
     /**
      * Get UserInfo by Project ID and list of User IDs.
+     * Stubbed implementation, so, instead of
+     *  usersFeignClient.getUsersInfoByProjectId(projectId, userIds),
+     *  List of stubbed UserInfo objects is returned.
      *
      * @param projectId UUID of a project
      * @param userIds List of user UUIDs
      * @return List of UserInfo objects.
      */
     public List<UserInfo> getUsersInfoByProjectId(final UUID projectId, final List<UUID> userIds) {
-        return usersFeignClient.getUsersInfoByProjectId(projectId, userIds);
+        List<UserInfo> userInfoList = new ArrayList<>();
+        userIds.forEach(uuid -> {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(uuid);
+            userInfo.fillStubbedProperties();
+            userInfoList.add(userInfo);
+        });
+        return userInfoList;
     }
 
     /**
      * Save users with permissions to object permissions.
+     * Stubbed implementation, so, in fact, saving via usersFeignClient isn't performed.
+     * This call isn't made:
+     *  runWithoutUserToken(() -> usersFeignClient.saveObjectPermissions(projectId, serviceName,
+     *                 getObjectName(entityName, objectId), assignedUsers)).
+     * Instead, ObjectPermissions object is simply filled and returned.
      *
      * @param projectId UUID of a project
      * @param objectId UUID of an object
@@ -152,10 +181,10 @@ public class UsersService {
     public ObjectPermissions saveObjectPermissions(final String entityName,
                                                    final UUID projectId,
                                                    final UUID objectId,
-                                                   final Map<UUID, Operations> assignedUsers)
-            throws Exception {
-        return runWithoutUserToken(() -> usersFeignClient.saveObjectPermissions(projectId, serviceName,
-                getObjectName(entityName, objectId), assignedUsers));
+                                                   final Map<UUID, Operations> assignedUsers) {
+        Map<String, Map<UUID, Operations>> permissions = new HashMap<>();
+        permissions.put(objectId.toString(), assignedUsers);
+        return new ObjectPermissions(UUID.randomUUID(), projectId, serviceName, permissions);
     }
 
     /**
@@ -178,6 +207,11 @@ public class UsersService {
 
     /**
      * Delete permissions for object by ID.
+     * Stubbed implementation, so, in fact, deleting via usersFeignClient isn't performed.
+     * This call isn't made:
+     *   runWithoutUserToken(() -> usersFeignClient
+     *          .deleteObjectPermissions(projectId, serviceName, getObjectName(entityName, objectId))).
+     * Instead, method does nothing.
      *
      * @param entityName String entity name
      * @param projectId UUID of a project
@@ -186,12 +220,15 @@ public class UsersService {
     public void deleteObjectPermissions(final String entityName,
                                         final UUID projectId,
                                         final UUID objectId) {
-        runWithoutUserToken(() ->
-                usersFeignClient.deleteObjectPermissions(projectId, serviceName, getObjectName(entityName, objectId)));
     }
 
     /**
      * Delete all objects by object IDs.
+     * Stubbed implementation, so, in fact, deleting via usersFeignClient isn't performed.
+     * This call isn't made:
+     *   runWithoutUserToken(() -> usersFeignClient
+     *          .deleteObjectPermissionsBulk(projectId, serviceName, getObjectNames(entityName, objectIds))).
+     * Instead, method does nothing.
      *
      * @param entityName String entity name
      * @param projectId UUID of a project
@@ -200,9 +237,6 @@ public class UsersService {
     public void deleteObjectPermissionsBulk(final String entityName,
                                             final UUID projectId,
                                             final List<UUID> objectIds) {
-        runWithoutUserToken(() ->
-                usersFeignClient.deleteObjectPermissionsBulk(projectId, serviceName,
-                        getObjectNames(entityName, objectIds)));
     }
 
     /**

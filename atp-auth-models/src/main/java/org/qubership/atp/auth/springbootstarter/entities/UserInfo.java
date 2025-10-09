@@ -20,6 +20,7 @@ import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.joining;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -83,6 +84,14 @@ public class UserInfo {
             this.roles = new ArrayList<>();
         }
         this.roles.add(role);
+    }
+
+    public void fillStubbedProperties() {
+        this.setUsername("Username");
+        this.setFirstName("Firstname");
+        this.setLastName("Lastname");
+        this.setEmail("example@example.com");
+        this.setRoles(Collections.singletonList("ADMIN"));
     }
 
     private boolean isNotEmpty(final String data) {
