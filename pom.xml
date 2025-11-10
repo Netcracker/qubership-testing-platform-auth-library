@@ -31,7 +31,6 @@
         <google.guava.version>32.0.0-jre</google.guava.version>
         <lombok.version>1.18.30</lombok.version>
         <ch.qos.logback.version>1.5.11</ch.qos.logback.version>
-
         <net.bytebuddy.version>1.14.17</net.bytebuddy.version>
         <io.github.openfeign.version>13.2.1</io.github.openfeign.version>
         <io.undertow.undertow-core.version>2.3.18.Final</io.undertow.undertow-core.version>
