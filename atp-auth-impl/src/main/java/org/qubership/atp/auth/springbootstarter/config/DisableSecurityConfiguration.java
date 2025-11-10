@@ -34,9 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -242,32 +240,13 @@ public class DisableSecurityConfiguration {
     }
 
     /**
-     * Configure HTTP Security.
+     * Configure Web Security as 'all resources are allowed'.
      *
-     * @param http HTTP Security
-     * @throws Exception in case configuration errors faced.
-     */
-    public void configureHttpSecurity(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers
-                                .defaultsDisabled()
-                                .contentSecurityPolicy(policy -> policy.policyDirectives(contentSecurityPolicy))
-                )
-                .authorizeHttpRequests(registry -> registry.requestMatchers("/**").permitAll()
-                );
-    }
-
-    /**
-     * Filter chain.
-     *
-     * @param http HTTPSecurity object
-     * @return Security Filter Chain
-     * @throws Exception exception in case configuration problems.
+     * @return WebSecurityCustomizer object built.
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        configureHttpSecurity(http);
-        return http.build();
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers("/**");
     }
+
 }
