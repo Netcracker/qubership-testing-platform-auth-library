@@ -28,7 +28,6 @@ import org.qubership.atp.auth.springbootstarter.provider.impl.DisableSecurityUse
 import org.qubership.atp.auth.springbootstarter.security.permissions.PolicyEnforcement;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
 import org.qubership.atp.common.logging.interceptor.RestTemplateLogInterceptor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -41,20 +40,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @EnableWebSecurity
 @Configuration
-@Profile("disable-security")
+@Profile({"disable-security", "default"})
 public class DisableSecurityConfiguration {
-
-    /**
-     * Service Name set in the service configuration.
-     */
-    @Value("${spring.application.name}")
-    private String serviceName;
-
-    /**
-     * Content Security Policy to be applied.
-     */
-    @Value("${atp-auth.headers.content-security-policy:default-src 'self' *}")
-    private String contentSecurityPolicy;
 
     /**
      * Allow all PolicyEnforcement, will be used if there is no need to check permissions.
