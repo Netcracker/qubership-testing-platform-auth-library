@@ -18,12 +18,17 @@ package org.qubership.atp.auth.springbootstarter;
 
 import org.qubership.atp.auth.springbootstarter.config.DisableSecurityConfiguration;
 import org.qubership.atp.auth.springbootstarter.config.KafkaConfig;
+import org.qubership.atp.auth.springbootstarter.config.ServiceConfiguration;
+import org.qubership.atp.auth.springbootstarter.handlers.GlobalExceptionHandler;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableCaching
-@Import({DisableSecurityConfiguration.class, KafkaConfig.class})
+@Import({ServiceConfiguration.class,
+        DisableSecurityConfiguration.class,
+        GlobalExceptionHandler.class,
+        KafkaConfig.class})
 public class AtpAuthAutoConfiguration {
 }
