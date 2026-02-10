@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.persistence.Id;
-
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data

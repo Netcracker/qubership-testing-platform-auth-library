@@ -23,8 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.junit.Test;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.springframework.core.MethodParameter;
@@ -38,6 +36,7 @@ import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 
 public class GlobalExceptionHandlerTest {
 
