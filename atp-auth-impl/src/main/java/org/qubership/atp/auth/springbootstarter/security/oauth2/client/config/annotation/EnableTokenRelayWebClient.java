@@ -21,11 +21,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.qubership.atp.auth.springbootstarter.config.ReactiveHttpClientsConfiguration;
+import org.springframework.context.annotation.Import;
+
 /**
  * Enables token relay web client. Template may be autowired using qualifier
  * <code>relayWebClient</code>
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Import({ReactiveHttpClientsConfiguration.class})
 public @interface EnableTokenRelayWebClient {
 }

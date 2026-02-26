@@ -18,6 +18,7 @@ package org.qubership.atp.auth.springbootstarter;
 
 import org.qubership.atp.auth.springbootstarter.config.DisableSecurityConfiguration;
 import org.qubership.atp.auth.springbootstarter.config.FeignConfiguration;
+import org.qubership.atp.auth.springbootstarter.config.HttpClientsConfiguration;
 import org.qubership.atp.auth.springbootstarter.config.KafkaConfig;
 import org.qubership.atp.auth.springbootstarter.config.SecurityConfiguration;
 import org.qubership.atp.auth.springbootstarter.config.ServiceConfiguration;
@@ -31,6 +32,7 @@ import org.springframework.context.annotation.Import;
 @Import({ServiceConfiguration.class,
         SecurityConfiguration.class,
         DisableSecurityConfiguration.class,
+        HttpClientsConfiguration.class,
         FeignConfiguration.class,
         GlobalExceptionHandler.class,
         KafkaConfig.class})
