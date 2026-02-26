@@ -16,20 +16,10 @@
 
 package org.qubership.atp.auth.springbootstarter.config;
 
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
 import org.qubership.atp.auth.springbootstarter.entities.Operation;
 import org.qubership.atp.auth.springbootstarter.entities.Permissions;
 import org.qubership.atp.auth.springbootstarter.entities.Project;
@@ -43,8 +33,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -240,47 +228,6 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean("relayWebClient")
     public WebClient relayWebClient() {
         return WebClient.builder().build();
-    }
-
-    /**
-     * Http client with trusted ssl certificate.
-     *
-     * @param sslContext SSLContext object
-     * @return HttpClient object created and configured.
-     */
-    @Bean
-    public HttpClient sslHttpClient(final SSLContext sslContext) {
-        return HttpClients.custom()
-                .setSSLSocketFactory(new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
-                .build();
-    }
-
-    /**
-     * RequestFactory with ignore ssl certificate verification.
-     *
-     * @param sslHttpClient HttpClient object
-     * @return ClientHttpRequestFactory factory created and configured.
-     */
-    @Bean
-    public ClientHttpRequestFactory sslRequestFactory(final HttpClient sslHttpClient) {
-        HttpComponentsClientHttpRequestFactory sslRequestFactory =
-                new HttpComponentsClientHttpRequestFactory();
-
-        sslRequestFactory.setHttpClient(sslHttpClient);
-        return sslRequestFactory;
-    }
-
-    /**
-     * Ssl context which ignore ssl verification.
-     *
-     * @return SSLContext object created and configured.
-     */
-    @Bean
-    public SSLContext ignoreVerifySslContext()
-            throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-        return SSLContexts.custom()
-                .loadTrustMaterial(null, (x, y) -> true)
-                .build();
     }
 
     /**
