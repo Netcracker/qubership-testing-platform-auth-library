@@ -34,12 +34,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@EnableWebSecurity
 @Configuration
 @Profile("disable-security")
 public class DisableSecurityConfiguration {
@@ -242,13 +242,28 @@ public class DisableSecurityConfiguration {
     }
 
     /**
-     * Configure Web Security as 'all resources are allowed'.
-     *
-     * @return WebSecurityCustomizer object built.
+     * Configure HTTP Security.
+     * @param http HTTP Security
+     * @throws Exception Exception
+     */
+    public void configureHttpSecurity(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .defaultsDisabled()
+                        .contentSecurityPolicy(policy -> policy.policyDirectives(contentSecurityPolicy)))
+                .authorizeHttpRequests(registry -> registry.anyRequest().permitAll());
+    }
+
+    /**
+     * Filter chain.
+     * @param http HTTP Security
+     * @return Security Filter Chain
+     * @throws Exception Exception
      */
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers("/**");
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        configureHttpSecurity(http);
+        return http.build();
     }
 
 }
