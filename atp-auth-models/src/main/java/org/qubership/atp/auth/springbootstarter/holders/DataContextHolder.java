@@ -47,8 +47,8 @@ public interface DataContextHolder<T> {
      *
      * @return principal.
      */
-    default Jwt getPrincipal() {
-        return (Jwt) SecurityContextHolder
+    default Object getPrincipal() {
+        return SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
