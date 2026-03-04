@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,7 +21,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.qubership.atp.auth.springbootstarter.config.HttpClientsConfiguration;
+import org.springframework.context.annotation.Import;
+
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Import({HttpClientsConfiguration.class})
 public @interface EnableM2MRestTemplate {
 }
