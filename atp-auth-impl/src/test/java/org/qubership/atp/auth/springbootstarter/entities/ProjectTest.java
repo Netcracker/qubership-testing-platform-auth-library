@@ -34,12 +34,12 @@ public class ProjectTest implements Serializable {
     public void whenSerializing_ThenNoException() {
         Project p1 = new Project();
         p1.setUuid(UUID.randomUUID());
-        p1.setLeads(new HashSet<UUID>() {{
+        p1.setLeads(new HashSet<>() {{
             add(UUID.randomUUID());
             add(UUID.randomUUID());
         }});
         Permissions permissions = new Permissions();
-        permissions.setLeads(new HashMap<String, Operations>() {{
+        permissions.setLeads(new HashMap<>() {{
             put("test", new Operations(true, false, true, false, true, false, true));
         }});
         p1.setPermissions(permissions);

@@ -27,7 +27,6 @@ import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationE
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
-@Order(Ordered.LOWEST_PRECEDENCE)
+@Order()
 @Slf4j
 public class GlobalExceptionHandler {
 
