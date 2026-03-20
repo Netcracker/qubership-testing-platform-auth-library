@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.auth.springbootstarter.feign.exception;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import lombok.Getter;
 @SuppressWarnings("checkstyle:HiddenField")
 public class FeignClientException extends RetryableException {
 
+    @Serial
     private static final long serialVersionUID = 958858846136424604L;
 
     /**
@@ -68,7 +70,7 @@ public class FeignClientException extends RetryableException {
                                 final Request.HttpMethod httpMethod,
                                 final Map<String, Collection<String>> headers,
                                 final Request request) {
-        super(status, String.format("%d %s", status, errorMessage), httpMethod, (Long) null, request);
+        super(status, "%d %s".formatted(status, errorMessage), httpMethod, (Long) null, request);
         this.status = status;
         this.errorMessage = errorMessage;
         this.headers = headers;

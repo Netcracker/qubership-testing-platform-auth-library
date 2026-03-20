@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -280,13 +280,13 @@ public class UsersService {
      */
     public String getObjectName(final String entityName,
                                 final UUID objectId) {
-        return String.format("%s-%s-%s", serviceName, entityName, objectId);
+        return "%s-%s-%s".formatted(serviceName, entityName, objectId);
     }
 
     private List<String> getObjectNames(final String entityName,
                                         final List<UUID> objectId) {
         return objectId.stream()
-                .map(id -> String.format("%s-%s-%s", serviceName, entityName, id))
+                .map(id -> "%s-%s-%s".formatted(serviceName, entityName, id))
                 .collect(Collectors.toList());
     }
 

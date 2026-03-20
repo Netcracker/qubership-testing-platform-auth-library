@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ public class FeignClientExceptionErrorDecoder implements ErrorDecoder {
             return Util.toString(body.asReader(Util.UTF_8));
         } else {
             throw new DecodeException(response.status(),
-                    String.format("%s is not a type supported by this decoder.", type),
+                    "%s is not a type supported by this decoder.".formatted(type),
                     response.request());
         }
     }

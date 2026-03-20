@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -85,8 +85,8 @@ public class GlobalExceptionHandler {
         if (exception instanceof FeignClientException) {
             return getFeignClientExceptionResponse(exception);
         }
-        if (exception instanceof MethodArgumentNotValidException) {
-            exception = new AtpRequestValidationException((MethodArgumentNotValidException) exception);
+        if (exception instanceof MethodArgumentNotValidException validException) {
+            exception = new AtpRequestValidationException(validException);
         }
         boolean isAtpException = exception instanceof AtpException;
         if (!isAtpException) {

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 
 package org.qubership.atp.auth.springbootstarter.exceptions;
-
-import static java.lang.String.format;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -45,7 +43,7 @@ public class AtpEntityNotFoundException extends AtpException {
      * @param entity Entity name.
      */
     public AtpEntityNotFoundException(final String entity) {
-        super(format(DEFAULT_MESSAGE, entity));
+        super(DEFAULT_MESSAGE.formatted(entity));
     }
 
     /**
@@ -55,7 +53,7 @@ public class AtpEntityNotFoundException extends AtpException {
      * @param id Reference field value.
      */
     public AtpEntityNotFoundException(final String entity, final Object id) {
-        super(format(DEFAULT_ID_MESSAGE, entity, id));
+        super(DEFAULT_ID_MESSAGE.formatted(entity, id));
     }
 
     /**
@@ -66,6 +64,6 @@ public class AtpEntityNotFoundException extends AtpException {
      * @param refFieldValue Reference field value.
      */
     public AtpEntityNotFoundException(final String entity, final String refField, final Object refFieldValue) {
-        super(format(DEFAULT_REF_ID_MESSAGE, entity, refField, refFieldValue));
+        super(DEFAULT_REF_ID_MESSAGE.formatted(entity, refField, refFieldValue));
     }
 }

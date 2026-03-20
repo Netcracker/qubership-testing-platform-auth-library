@@ -18,19 +18,19 @@
     </modules>
 
     <properties>
-        <atp.common.version>1.0.1-SNAPSHOT</atp.common.version> <!-- Version in feature/springboot-upgrade branch -->
+        <atp.common.version>1.0.1-SNAPSHOT</atp.common.version>
         <java.version>21</java.version>
 
         <spring.boot.version>3.5.11</spring.boot.version>
         <spring-cloud.version>2025.0.1</spring-cloud.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <google.guava.version>32.0.1-jre</google.guava.version>
         <lombok.version>1.18.44</lombok.version>
-        <net.bytebuddy.version>1.14.17</net.bytebuddy.version>
+        <net.bytebuddy.version>1.17.8</net.bytebuddy.version>
         <io.github.openfeign.version>13.6</io.github.openfeign.version>
         <io.undertow.undertow-core.version>2.3.21.Final</io.undertow.undertow-core.version>
-        <org.bouncycastle.version>1.70</org.bouncycastle.version>
+        <org.bouncycastle.version>1.80</org.bouncycastle.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
 
@@ -55,8 +55,8 @@
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-auth-library.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-auth-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-auth-library.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -94,7 +94,6 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>2.9.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -123,33 +122,24 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
-            <version>9.37.2</version> <!-- 9.25.1 in the patch... -->
+            <version>9.37.2</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>${jakarta.servlet-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -183,7 +173,6 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>5.4.3</version>
         </dependency>
         <dependency>
             <groupId>org.qubership.atp.common</groupId>
@@ -228,42 +217,10 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-core</artifactId>
-                <version>${io.undertow.undertow-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-servlet</artifactId>
-                <version>${io.undertow.undertow-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-websockets-jsr</artifactId>
-                <version>${io.undertow.undertow-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.xmlunit</groupId>
-                <artifactId>xmlunit-core</artifactId>
-                <version>2.10.0</version>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>2.5.0.RELEASE</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-core</artifactId>
-                <version>6.5.8</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
-                <version>6.5.8</version>
             </dependency>
             <dependency>
                 <groupId>org.xerial.snappy</groupId>
@@ -287,23 +244,13 @@
                 <version>1.10.1</version>
             </dependency>
             <dependency>
-                <groupId>net.bytebuddy</groupId>
-                <artifactId>byte-buddy</artifactId>
-                <version>${net.bytebuddy.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.bytebuddy</groupId>
-                <artifactId>byte-buddy-agent</artifactId>
-                <version>${net.bytebuddy.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15on</artifactId>
+                <artifactId>bcprov-jdk18on</artifactId>
                 <version>${org.bouncycastle.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcpkix-jdk15on</artifactId>
+                <artifactId>bcpkix-jdk18on</artifactId>
                 <version>${org.bouncycastle.version}</version>
             </dependency>
             <dependency>
@@ -327,11 +274,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-webflux</artifactId>-->
-<!--                <version>6.1.19</version>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -497,7 +439,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.15.0</version>
                 <configuration>
                     <release>21</release>
                     <parameters>true</parameters>
@@ -521,47 +463,36 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <version>4.2.0</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                    <generateHtml>true</generateHtml>
-                    <generateXml>true</generateXml>
-                    <generatePdf>true</generatePdf>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>clover-instrument</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>instrument-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>clover-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>clover</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.17</version>
+                <version>3.1.2</version>
                 <configuration>
                     <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
                     <systemPropertyVariables>
                         <logback.debug>true</logback.debug>
                     </systemPropertyVariables>
-                    <!--see https://confluence.atlassian.com/clover/using-clover-with-maven-+-surefire-test-+-inner-test-classes-285840787.html -->
                     <excludes>
                         <exclude>**/*$__CLR*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>1.18.44</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <pluginRepositories>

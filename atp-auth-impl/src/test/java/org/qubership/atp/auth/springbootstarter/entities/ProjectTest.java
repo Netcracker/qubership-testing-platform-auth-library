@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.SerializationUtils;
 
 public class ProjectTest implements Serializable {
@@ -47,11 +47,11 @@ public class ProjectTest implements Serializable {
         byte[] serialize = SerializationUtils.serialize(p1);
         Project p2 = (Project) SerializationUtils.deserialize(serialize);
 
-        Assert.assertNotNull(p2);
-        Assert.assertNotNull(p2.getUuid());
-        Assert.assertEquals(p1.getUuid(), p2.getUuid());
-        Assert.assertEquals(p1.getLeads(), p2.getLeads());
-        Assert.assertEquals(p1.getPermissions(), p2.getPermissions());
+        Assertions.assertNotNull(p2);
+        Assertions.assertNotNull(p2.getUuid());
+        Assertions.assertEquals(p1.getUuid(), p2.getUuid());
+        Assertions.assertEquals(p1.getLeads(), p2.getLeads());
+        Assertions.assertEquals(p1.getPermissions(), p2.getPermissions());
     }
 
 }
