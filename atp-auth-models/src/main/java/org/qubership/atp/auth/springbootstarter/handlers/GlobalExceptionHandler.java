@@ -18,10 +18,10 @@ package org.qubership.atp.auth.springbootstarter.handlers;
 
 import static org.springframework.http.HttpStatus.valueOf;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Date;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
@@ -97,7 +97,7 @@ public class GlobalExceptionHandler {
         ResponseStatus responseStatus =
                 AnnotatedElementUtils.findMergedAnnotation(exception.getClass(), ResponseStatus.class);
         HttpStatus status = (responseStatus == null) ? HttpStatus.INTERNAL_SERVER_ERROR : responseStatus.code();
-        String reason = (responseStatus == null) ? Strings.EMPTY : responseStatus.reason();
+        String reason = (responseStatus == null) ? StringUtils.EMPTY : responseStatus.reason();
         ErrorResponse error = ErrorResponse.builder()
                 .status(status.value())
                 .path(request.getServletPath())
@@ -119,7 +119,7 @@ public class GlobalExceptionHandler {
 
         Integer status = feignException.getStatus();
         String url = feignException.getRequest().url();
-        String path = new URL(url).getPath();
+        String path = new URI(url).toURL().getPath();
         String message = errorNode.get("message").asText();
         String reason = errorNode.get("reason").asText();
 

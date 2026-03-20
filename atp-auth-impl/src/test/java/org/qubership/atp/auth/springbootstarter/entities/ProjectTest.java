@@ -44,8 +44,7 @@ public class ProjectTest implements Serializable {
         }});
         p1.setPermissions(permissions);
 
-        byte[] serialize = SerializationUtils.serialize(p1);
-        Project p2 = (Project) SerializationUtils.deserialize(serialize);
+        Project p2 = SerializationUtils.clone(p1);
 
         Assertions.assertNotNull(p2);
         Assertions.assertNotNull(p2.getUuid());
