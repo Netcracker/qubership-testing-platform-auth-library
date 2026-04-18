@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.valueOf;
 import java.net.URL;
 import java.util.Date;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
@@ -97,7 +97,7 @@ public class GlobalExceptionHandler {
         ResponseStatus responseStatus =
                 AnnotatedElementUtils.findMergedAnnotation(exception.getClass(), ResponseStatus.class);
         HttpStatus status = (responseStatus == null) ? HttpStatus.INTERNAL_SERVER_ERROR : responseStatus.code();
-        String reason = (responseStatus == null) ? Strings.EMPTY : responseStatus.reason();
+        String reason = (responseStatus == null) ? StringUtils.EMPTY : responseStatus.reason();
         ErrorResponse error = ErrorResponse.builder()
                 .status(status.value())
                 .path(request.getServletPath())
