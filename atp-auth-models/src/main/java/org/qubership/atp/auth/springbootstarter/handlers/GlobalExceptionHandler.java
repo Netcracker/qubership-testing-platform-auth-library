@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,18 +18,15 @@ package org.qubership.atp.auth.springbootstarter.handlers;
 
 import static org.springframework.http.HttpStatus.valueOf;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpRequestValidationException;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -43,15 +40,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
-@Order(Ordered.LOWEST_PRECEDENCE)
+@Order()
 @Slf4j
 public class GlobalExceptionHandler {
 
     /**
-     * Include Stack Trace (true/false) configuration variable.
+     * Include Stack Trace or not (true/false) configuration variable.
      */
     @Value("${atp.handler.exception.include-stack-trace:false}")
     private boolean includeStackTrace;
@@ -75,7 +73,7 @@ public class GlobalExceptionHandler {
      *
      * @param exception - Exception object
      * @param request   - HttpServletRequest
-     * @return ErrorResponse entity
+     * @return ErrorResponse entity.
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> commonHandler(Exception exception,
@@ -86,8 +84,8 @@ public class GlobalExceptionHandler {
         if (exception instanceof FeignClientException) {
             return getFeignClientExceptionResponse(exception);
         }
-        if (exception instanceof MethodArgumentNotValidException) {
-            exception = new AtpRequestValidationException((MethodArgumentNotValidException) exception);
+        if (exception instanceof MethodArgumentNotValidException validException) {
+            exception = new AtpRequestValidationException(validException);
         }
         boolean isAtpException = exception instanceof AtpException;
         if (!isAtpException) {
@@ -98,7 +96,7 @@ public class GlobalExceptionHandler {
         ResponseStatus responseStatus =
                 AnnotatedElementUtils.findMergedAnnotation(exception.getClass(), ResponseStatus.class);
         HttpStatus status = (responseStatus == null) ? HttpStatus.INTERNAL_SERVER_ERROR : responseStatus.code();
-        String reason = (responseStatus == null) ? Strings.EMPTY : responseStatus.reason();
+        String reason = (responseStatus == null) ? StringUtils.EMPTY : responseStatus.reason();
         ErrorResponse error = ErrorResponse.builder()
                 .status(status.value())
                 .path(request.getServletPath())
@@ -120,7 +118,7 @@ public class GlobalExceptionHandler {
 
         Integer status = feignException.getStatus();
         String url = feignException.getRequest().url();
-        String path = new URL(url).getPath();
+        String path = new URI(url).toURL().getPath();
         String message = errorNode.get("message").asText();
         String reason = errorNode.get("reason").asText();
 

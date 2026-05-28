@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -35,13 +35,14 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @Profile("disable-security")
-public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class DisableSecurityConfiguration {
 
     /**
      * Service Name set in the service configuration.
@@ -241,20 +242,28 @@ public class DisableSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Configure HttpSecurity as disabled security and all resources are permitted.
-     *
-     * @param http HttpSecurity object to be configured
-     * @throws Exception in case various configuration exceptions.
+     * Configure HTTP Security.
+     * @param http HTTP Security
+     * @throws Exception Exception
      */
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.headers()
-                .defaultsDisabled()
-                .xssProtection().xssProtectionEnabled(false)
-                .and()
-                .contentSecurityPolicy(contentSecurityPolicy);
-        http.authorizeRequests(auth -> auth.anyRequest().permitAll());
+    public void configureHttpSecurity(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .defaultsDisabled()
+                        .contentSecurityPolicy(policy -> policy.policyDirectives(contentSecurityPolicy)))
+                .authorizeHttpRequests(registry -> registry.anyRequest().permitAll());
+    }
+
+    /**
+     * Filter chain.
+     * @param http HTTP Security
+     * @return Security Filter Chain
+     * @throws Exception Exception
+     */
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        configureHttpSecurity(http);
+        return http.build();
     }
 
 }

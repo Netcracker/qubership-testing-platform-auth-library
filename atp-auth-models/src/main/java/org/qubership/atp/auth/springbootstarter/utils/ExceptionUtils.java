@@ -21,6 +21,9 @@ import org.slf4j.Logger;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * To be deleted in stubbed library, after upgrade to Spring Boot 3.
+ */
 @UtilityClass
 public class ExceptionUtils {
 
@@ -28,12 +31,11 @@ public class ExceptionUtils {
      * Log and throw the error.
      *
      * @param log logger
-     * @param exception error.
+     * @param exception error to log and then throw.
      */
     public static void throwWithLog(final Logger log, final AtpException exception) {
         String message = exception.getMessage();
         log.error(message, exception);
-
         throw exception;
     }
 }

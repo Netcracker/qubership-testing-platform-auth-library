@@ -83,8 +83,7 @@ public class FeignConfiguration {
      *
      * @return ObjectMapper bean
      */
-    @Bean
-    @Qualifier("feignClientObjectMapper")
+    @Bean("feignClientObjectMapper")
     public ObjectMapper feignClientObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ public class Oauth2FeignClientInterceptor implements RequestInterceptor {
      * @param token String token value (Bearer token).
      */
     public void setAuthorizationHeader(final RequestTemplate requestTemplate, final String token) {
-        requestTemplate.header(AUTHORIZATION_HEADER_NAME, String.format("%s %s", BEARER_TOKEN_TYPE, token));
+        requestTemplate.header(AUTHORIZATION_HEADER_NAME, "%s %s".formatted(BEARER_TOKEN_TYPE, token));
         Collection<String> authorizationHeaderValues = requestTemplate.headers().get(AUTHORIZATION_HEADER_NAME);
         boolean authorizationHeaderHasToken = authorizationHeaderValues.stream()
                 .anyMatch(value -> value.startsWith(BEARER_TOKEN_TYPE.toLowerCase()));

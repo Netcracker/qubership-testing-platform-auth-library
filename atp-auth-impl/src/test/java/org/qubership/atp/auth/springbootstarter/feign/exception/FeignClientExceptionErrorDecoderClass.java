@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -29,10 +29,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.hc.core5.http.HttpStatus;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import feign.Request;
 import feign.Response;
@@ -47,7 +47,7 @@ public class FeignClientExceptionErrorDecoderClass {
     /**
      * Before-tests actions.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         feignClientExceptionErrorDecoder = new FeignClientExceptionErrorDecoder();
     }
@@ -102,7 +102,7 @@ public class FeignClientExceptionErrorDecoderClass {
         when(response.headers()).thenReturn(headers);
 
         FeignClientException actual = feignClientExceptionErrorDecoder.decode(methodKey, response);
-        Assert.assertEquals(bodyString, actual.getErrorMessage());
-        Assert.assertEquals(code, actual.getStatus());
+        Assertions.assertEquals(bodyString, actual.getErrorMessage());
+        Assertions.assertEquals(code, actual.getStatus());
     }
 }

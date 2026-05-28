@@ -20,6 +20,9 @@ import java.lang.reflect.ParameterizedType;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * To be deleted in stubbed library, after upgrade to Spring Boot 3.
+ */
 @UtilityClass
 public class ReflectionUtils {
 
@@ -32,7 +35,6 @@ public class ReflectionUtils {
     public static String getGenericClassSimpleName(final Object target) {
         ParameterizedType genericSuperclass = (ParameterizedType) target.getClass().getGenericSuperclass();
         String fullClassName = genericSuperclass.getActualTypeArguments()[0].getTypeName();
-
         return fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
     }
 }
