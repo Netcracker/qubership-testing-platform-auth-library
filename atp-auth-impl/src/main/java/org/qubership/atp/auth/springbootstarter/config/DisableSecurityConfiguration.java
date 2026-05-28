@@ -57,6 +57,18 @@ public class DisableSecurityConfiguration {
     private String contentSecurityPolicy;
 
     /**
+     * Service Name set in the service configuration.
+     */
+    @Value("${spring.application.name}")
+    private String serviceName;
+
+    /**
+     * Content Security Policy to be applied.
+     */
+    @Value("${atp-auth.headers.content-security-policy:default-src 'self' *}")
+    private String contentSecurityPolicy;
+
+    /**
      * Allow all PolicyEnforcement, will be used if there is no need to check permissions.
      *
      * @return PolicyEnforcement bean.
