@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -43,18 +43,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 @Profile("disable-security")
 public class DisableSecurityConfiguration {
-
-    /**
-     * Service Name set in the service configuration.
-     */
-    @Value("${spring.application.name}")
-    private String serviceName;
-
-    /**
-     * Content Security Policy to be applied.
-     */
-    @Value("${atp-auth.headers.content-security-policy:default-src 'self' *}")
-    private String contentSecurityPolicy;
 
     /**
      * Service Name set in the service configuration.
